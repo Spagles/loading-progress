@@ -103,7 +103,7 @@ internal static class FasterGameLoadingProgressWindow
 
         Widgets_Progressbar.DrawHorizontalProgressBar(
             progressRect,
-            FasterGameLoadingUtils.LoadedMods!.Count,
+            FasterGameLoadingUtils.LoadedMods?.Count ?? 0,
             LoadedModManager.RunningModsListForReading.Count
         );
     }
