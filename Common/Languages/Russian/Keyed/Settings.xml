@@ -32,4 +32,6 @@
     <LoadingProgress.Middle>По центру</LoadingProgress.Middle>
     <LoadingProgress.Bottom>Снизу</LoadingProgress.Bottom>
     <LoadingProgress.Custom>Пользовательское</LoadingProgress.Custom>
+    <LoadingProgress.EditCustomPlacement>Задать позицию...</LoadingProgress.EditCustomPlacement>
+    <LoadingProgress.CustomPlacementPreview.Tip>Перетащите это окно туда, где должно появляться окно загрузки, затем закройте его. Его нельзя перетащить за пределы экрана, а его позиция сохраняется относительно размера экрана, поэтому она останется на том же относительном месте при смене разрешения.</LoadingProgress.CustomPlacementPreview.Tip>
 </LanguageData>

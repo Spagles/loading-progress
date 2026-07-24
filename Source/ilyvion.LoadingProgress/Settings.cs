@@ -25,6 +25,13 @@ internal sealed class Settings : ModSettings
         set => _loadingWindowPlacement = value;
     }
 
+    private Vector2 _customPlacementRelativePosition = new(0.5f, 0.5f);
+    public Vector2 CustomPlacementRelativePosition
+    {
+        get => _customPlacementRelativePosition;
+        set => _customPlacementRelativePosition = CustomPlacement.ClampRelative(value);
+    }
+
     private float _lastLoadingTime = -1f;
     public float LastLoadingTime
     {
@@ -158,6 +165,11 @@ internal sealed class Settings : ModSettings
             ref _loadingWindowPlacement,
             "loadingWindowPlacement",
             LoadingWindowPlacement.Middle
+        );
+        Scribe_Values.Look(
+            ref _customPlacementRelativePosition,
+            "customPlacementRelativePosition",
+            new Vector2(0.5f, 0.5f)
         );
         Scribe_Values.Look(ref _lastLoadingTime, "lastLoadingTime", -1f);
         Scribe_Values.Look(ref _lastLoadingModHash, "lastLoadingModHash", -1);
@@ -320,15 +332,22 @@ internal sealed class Settings : ModSettings
                     "LoadingProgress.Bottom".Translate(),
                     () => _loadingWindowPlacement = LoadingWindowPlacement.Bottom
                 ),
-                // new FloatMenuOption(
-                //     "LoadingProgress.Custom".Translate(),
-                //     () => _loadingWindowPlacement = LoadingWindowPlacement.Custom)
+                new FloatMenuOption(
+                    "LoadingProgress.Custom".Translate(),
+                    () => _loadingWindowPlacement = LoadingWindowPlacement.Custom
+                ),
             ];
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
-        // if (ShowLastLoadingTimeInCorner)
-        // {
+        if (_loadingWindowPlacement == LoadingWindowPlacement.Custom)
+        {
+            if (listingStandard.ButtonText("LoadingProgress.EditCustomPlacement".Translate()))
+            {
+                Find.WindowStack.Add(new Dialog_CustomPlacementPreview());
+            }
+        }
+
         listingStandard.Gap();
 
         var avgLoadingTime = LoadingProgressMod.Settings.AverageLoadingTime;
@@ -349,7 +368,6 @@ internal sealed class Settings : ModSettings
                 Find.WindowStack.Add(new DialogStartupImpact());
             }
         }
-        // }
 
         listingStandard.End();
     }

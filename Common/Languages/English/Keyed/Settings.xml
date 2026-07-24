@@ -32,4 +32,6 @@
     <LoadingProgress.Middle>Middle</LoadingProgress.Middle>
     <LoadingProgress.Bottom>Bottom</LoadingProgress.Bottom>
     <LoadingProgress.Custom>Custom</LoadingProgress.Custom>
+    <LoadingProgress.EditCustomPlacement>Set custom position...</LoadingProgress.EditCustomPlacement>
+    <LoadingProgress.CustomPlacementPreview.Tip>Drag this window to where you want the loading window to appear, then close it. It can't be dragged off-screen, and its position is kept relative to your screen size, so it stays in the same relative spot if you change resolution.</LoadingProgress.CustomPlacementPreview.Tip>
 </LanguageData>
