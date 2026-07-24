@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The 'show last loading time' corner display could spam errors every frame on the main menu (and after returning to it) when no loading time had been recorded yet. It is now simply not shown until a loading time has been recorded.
 - The Faster Game Loading progress window could crash the loading screen if Faster Game Loading's internal data couldn't be read at all, or couldn't be read yet (e.g. after a Faster Game Loading update changes its internals). It now falls back to showing 0 mods loaded instead.
 - The warning logged when a mod calls a loading-related game API incorrectly (with a blank label) could itself crash the loading screen in rare cases instead of just printing the warning.
+- The content-reload detection used to show detailed progress while mods reload could crash the loading screen if a future game update changed how that code is compiled internally. It now falls back to showing reduced progress detail instead.
 
 ## [0.12.0] - 2026-07-24
 

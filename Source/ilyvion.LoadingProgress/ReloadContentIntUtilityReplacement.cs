@@ -101,7 +101,15 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                 {
                     var field = AccessTools
                         .GetDeclaredFields(method.DeclaringType)
-                        .Single(f => f.Name.Contains("this", StringComparison.Ordinal));
+                        .SingleOrDefault(f => f.Name.Contains("this", StringComparison.Ordinal));
+                    if (field is null)
+                    {
+                        LoadingProgressMod.Error(
+                            $"Could not find closure field on {method.DeclaringType} "
+                                + $"for method {method}({method.FullDescription()}); skipping candidate."
+                        );
+                        continue;
+                    }
                     yield return (method, field);
                 }
             }
