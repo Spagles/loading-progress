@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-07-24
+
 ### Added
 
 - New opt-in setting to automatically save the startup impact report to `StartupImpactData.xml` after every game startup, so external tools (such as the RimSort mod manager) can display each mod's startup load time without requiring a manual save from the startup impact window. ([#2])
@@ -15,9 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The loading screen could name the wrong mod when a slow static constructor, delayed-initialization task, or content-reload step caused a long stall; it would instead display whatever came right after it. The stall is now attributed to the mod actually responsible. ([#6])
-- The "current activity" label could get stuck on a stale sub-step (e.g. staying on "Loading strings for..." long after strings had finished loading) instead of returning to what was actually running. ([#6])
-- The "Applying XML patches" and "Loading defs" progress bars could occasionally run past their maximum instead of stopping there.
-- Fixed a rare crash ("Stack empty") that could occur while resolving cross-references during loading.
+- The 'current activity' label could get stuck on a stale sub-step (e.g. staying on 'Loading strings for...' long after strings had finished loading) instead of returning to what was actually running. ([#6])
+- The 'Applying XML patches' and 'Loading defs' progress bars could occasionally run past their maximum instead of stopping there.
+- Fixed a rare crash ('Stack empty') that could occur while resolving cross-references during loading.
 
 ## [0.11.0] - 2026-06-08
 
@@ -229,7 +231,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First implementation of the mod.
 
-[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/ilyvion/loading-progress/compare/v0.11.0..v0.12.0
 [0.11.0]: https://github.com/ilyvion/loading-progress/compare/v0.10.0..v0.11.0
 [0.10.0]: https://github.com/ilyvion/loading-progress/compare/v0.9.6..v0.10.0
 [0.9.6]: https://github.com/ilyvion/loading-progress/compare/v0.9.5..v0.9.6
