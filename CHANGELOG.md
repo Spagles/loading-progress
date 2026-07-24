@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The mod settings menu could crash with an error when opened before the mod had recorded any loading times (e.g. right after a fresh install). The loading time row is now hidden until at least one load has been recorded.
 - The 'show last loading time' corner display could spam errors every frame on the main menu (and after returning to it) when no loading time had been recorded yet. It is now simply not shown until a loading time has been recorded.
-- The Faster Game Loading progress window could crash the loading screen if Faster Game Loading's internal data couldn't be read (e.g. after a Faster Game Loading update changes its internals). It now falls back to showing 0 mods loaded instead.
+- The Faster Game Loading progress window could crash the loading screen if Faster Game Loading's internal data couldn't be read at all, or couldn't be read yet (e.g. after a Faster Game Loading update changes its internals). It now falls back to showing 0 mods loaded instead.
 
 ## [0.12.0] - 2026-07-24
 
