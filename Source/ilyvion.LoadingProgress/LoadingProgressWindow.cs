@@ -53,6 +53,7 @@ internal sealed partial class LoadingProgressWindow
             _currentModHash = StableListHasher.ComputeListHash(
                 LoadedModManager.RunningModsListForReading.Select(mod => mod.PackageId)
             );
+            LoadingSessionStats.Reset();
         }
 
         Text.Font = GameFont.Medium;

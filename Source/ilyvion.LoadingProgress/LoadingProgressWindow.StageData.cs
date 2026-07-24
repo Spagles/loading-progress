@@ -666,6 +666,13 @@ internal sealed partial class LoadingProgressWindow
         {
             if (currentStage != value)
             {
+                // Record the final progress count for stages we surface session-wide stats for,
+                // before resetting progress for the new stage
+                if (StageProgress is (_, float maxValue))
+                {
+                    LoadingSessionStats.RecordStageCompletion(currentStage, maxValue);
+                }
+
                 // Reset progress when stage changes
                 StageProgress = null;
                 LoadingDataTracker.Current = null;

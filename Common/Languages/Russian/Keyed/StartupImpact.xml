@@ -48,6 +48,7 @@
     <LoadingProgress.StartupImpact.Seconds>{0} с</LoadingProgress.StartupImpact.Seconds>
     <LoadingProgress.StartupImpact.Milliseconds>{0} мс</LoadingProgress.StartupImpact.Milliseconds>
     <LoadingProgress.StartupImpact.StartupTime>Время запуска: {0}</LoadingProgress.StartupImpact.StartupTime>
+    <LoadingProgress.StartupImpact.SessionStats>Обработано дефов: {0}, применено операций патчей: {1}, загружено модов: {2}</LoadingProgress.StartupImpact.SessionStats>
     <LoadingProgress.StartupImpact.StartupMods>Влияние модов на запуск: {0}</LoadingProgress.StartupImpact.StartupMods>
     <LoadingProgress.StartupImpact.StartupNonmods>Не связано напрямую с модами: {0}</LoadingProgress.StartupImpact.StartupNonmods>
     <LoadingProgress.StartupImpact.LogarithmicScale>Использовать логарифмическую шкалу</LoadingProgress.StartupImpact.LogarithmicScale>

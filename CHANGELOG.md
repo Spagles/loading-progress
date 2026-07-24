@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - The Startup Impact window's mod table now has a filter box, so you can quickly find a specific mod's impact by name or package ID instead of scrolling through the whole (potentially very long) mod list.
+- The Startup Impact window now shows a small summary of how much work the last load actually did: the number of defs parsed, patch operations applied, and mods loaded. This is also saved to the startup impact report file for external tools to read.
 
 ### Fixed
 

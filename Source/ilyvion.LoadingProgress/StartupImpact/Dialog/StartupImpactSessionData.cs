@@ -10,6 +10,10 @@ internal sealed class StartupImpactSessionData : IExposable
 
     private List<StartupImpactSessionModData> mods = [];
 
+    private int? modsLoaded;
+    private int? defsParsed;
+    private int? patchOperationsApplied;
+
     public float LoadingTime => loadingTime;
     public IReadOnlyDictionary<string, float> Metrics => metrics.AsReadOnly();
     public float TotalImpact => totalImpact;
@@ -17,6 +21,10 @@ internal sealed class StartupImpactSessionData : IExposable
     public float OffThreadTotalImpact => offThreadTotalImpact;
 
     public IReadOnlyList<StartupImpactSessionModData> Mods => mods.AsReadOnly();
+
+    public int? ModsLoaded => modsLoaded;
+    public int? DefsParsed => defsParsed;
+    public int? PatchOperationsApplied => patchOperationsApplied;
 
     internal static StartupImpactSessionData FromCurrentSession()
     {
@@ -34,6 +42,9 @@ internal sealed class StartupImpactSessionData : IExposable
                     StartupImpactSessionModData.FromModInfo
                 ),
             ],
+            modsLoaded = LoadingSessionStats.ModsLoaded,
+            defsParsed = LoadingSessionStats.DefsParsed,
+            patchOperationsApplied = LoadingSessionStats.PatchOperationsApplied,
         };
 
         return startupImpactSessionData;
@@ -62,6 +73,10 @@ internal sealed class StartupImpactSessionData : IExposable
         Scribe_Values.Look(ref offThreadTotalImpact, "offThreadTotalImpact");
 
         Scribe_Collections.Look(ref mods, "mods", LookMode.Deep);
+
+        Scribe_Values.Look(ref modsLoaded, "modsLoaded");
+        Scribe_Values.Look(ref defsParsed, "defsParsed");
+        Scribe_Values.Look(ref patchOperationsApplied, "patchOperationsApplied");
     }
 
     // These are used by Scribe_Collections.Look

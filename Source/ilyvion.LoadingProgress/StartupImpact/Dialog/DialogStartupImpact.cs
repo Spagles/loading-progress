@@ -296,6 +296,26 @@ internal sealed class DialogStartupImpact : Window
         );
         y += profileRect.height + InnerSpacing;
 
+        if (
+            _sessionData.ModsLoaded is int modsLoaded
+            && _sessionData.DefsParsed is int defsParsed
+            && _sessionData.PatchOperationsApplied is int patchOperationsApplied
+        )
+        {
+            Text.Font = GameFont.Small;
+            Rect sessionStatsRect = new(0, y, area.width, Text.LineHeight);
+            Widgets.Label(
+                sessionStatsRect,
+                "LoadingProgress.StartupImpact.SessionStats".Translate(
+                    defsParsed.ToString("N0", CultureInfo.CurrentCulture),
+                    patchOperationsApplied.ToString("N0", CultureInfo.CurrentCulture),
+                    modsLoaded.ToString("N0", CultureInfo.CurrentCulture)
+                )
+            );
+            y += sessionStatsRect.height + InnerSpacing;
+            Text.Font = GameFont.Medium;
+        }
+
         Rect nonmodsTitleRect = new(0, y, area.width, TitleHeight);
         Widgets.Label(
             nonmodsTitleRect,
