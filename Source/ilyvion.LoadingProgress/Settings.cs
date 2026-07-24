@@ -331,21 +331,23 @@ internal sealed class Settings : ModSettings
         // {
         listingStandard.Gap();
 
-        _loadingTime ??= TimeSpan.FromSeconds(
-            LoadingProgressMod.Settings.AverageLoadingTime!.Value
-        );
-        string text = "LoadingProgress.LoadingTime".Translate(
-            Utilities.FormatDuration(_loadingTime.Value)
-        );
-        if (
-            listingStandard.ButtonTextLabeled(
-                "LoadingProgress.LoadingTimeLabel".Translate(),
-                text,
-                tooltip: "LoadingProgress.LoadingTime.Tip".Translate()
-            )
-        )
+        var avgLoadingTime = LoadingProgressMod.Settings.AverageLoadingTime;
+        if (avgLoadingTime.HasValue)
         {
-            Find.WindowStack.Add(new DialogStartupImpact());
+            _loadingTime ??= TimeSpan.FromSeconds(avgLoadingTime.Value);
+            string text = "LoadingProgress.LoadingTime".Translate(
+                Utilities.FormatDuration(_loadingTime.Value)
+            );
+            if (
+                listingStandard.ButtonTextLabeled(
+                    "LoadingProgress.LoadingTimeLabel".Translate(),
+                    text,
+                    tooltip: "LoadingProgress.LoadingTime.Tip".Translate()
+                )
+            )
+            {
+                Find.WindowStack.Add(new DialogStartupImpact());
+            }
         }
         // }
 
