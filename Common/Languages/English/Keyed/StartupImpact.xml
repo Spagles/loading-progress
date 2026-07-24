@@ -53,6 +53,7 @@
     <LoadingProgress.StartupImpact.LogarithmicScale>Use logarithmic scale</LoadingProgress.StartupImpact.LogarithmicScale>
     <LoadingProgress.StartupImpact.LogarithmicScale.Tip>When this is enabled, the startup impact values will be displayed on a logarithmic scale meaning that a value that is 10 times as big as another in the linear space will only be twice as big, allowing for better comparisons of large differences in impact.</LoadingProgress.StartupImpact.LogarithmicScale.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Toggle the visibility of this mod's impact on startup performance. If this is currently the mod with the highest impact, its impact will no longer be used as a reference point for other mods, but instead the next highest impact mod will be used.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
+    <LoadingProgress.StartupImpact.FilterMods>Filter:</LoadingProgress.StartupImpact.FilterMods>
     <LoadingProgress.StartupImpact.Saved>Saved successfully</LoadingProgress.StartupImpact.Saved>
     <LoadingProgress.StartupImpact.SaveFailed>Saving failed: {0}</LoadingProgress.StartupImpact.SaveFailed>
     <LoadingProgress.StartupImpact.Loaded>Loaded successfully</LoadingProgress.StartupImpact.Loaded>

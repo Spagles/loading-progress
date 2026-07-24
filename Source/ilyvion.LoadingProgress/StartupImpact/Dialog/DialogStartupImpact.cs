@@ -193,6 +193,8 @@ internal sealed class DialogStartupImpact : Window
     private UiTable _table;
     private StartupImpactSessionData _sessionData;
     private StartupImpactSessionViewData _sessionViewData;
+    private string _modFilter = "";
+    private List<StartupImpactSessionModViewData> _filteredModViewData = [];
 
     // Set window width to 800 and height to the lesser of 800 or 75% of the screen height
     public override Vector2 InitialSize => new(800f, Math.Min(800f, UI.screenHeight * 0.75f));
@@ -229,6 +231,25 @@ internal sealed class DialogStartupImpact : Window
     {
         _sessionViewData = new StartupImpactSessionViewData(_sessionData);
         _table = new UiTable(_sessionData.Mods.Count, 40, [-40, 30, -80, 38]);
+        _modFilter = "";
+        ApplyModFilter();
+    }
+
+    private void ApplyModFilter()
+    {
+        _filteredModViewData = string.IsNullOrWhiteSpace(_modFilter)
+            ? [.. _sessionViewData.ModViewData]
+            :
+            [
+                .. _sessionViewData.ModViewData.Where(info =>
+                    info.ModData.ModName.Contains(_modFilter, StringComparison.OrdinalIgnoreCase)
+                    || info.ModData.ModPackageId.Contains(
+                        _modFilter,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                ),
+            ];
+        _table.RowCount = _filteredModViewData.Count;
     }
 
     public override void DoWindowContents(Rect area)
@@ -301,14 +322,28 @@ internal sealed class DialogStartupImpact : Window
                 ProfilerBar.TimeText(_sessionViewData.ModsLoadingTime)
             )
         );
-        y += modsTitleRect.height + OuterSpacing;
+        y += modsTitleRect.height + InnerSpacing;
         Text.Font = GameFont.Small;
+
+        var filterLabel = "LoadingProgress.StartupImpact.FilterMods".Translate();
+        var filterLabelWidth = Text.CalcSize(filterLabel).x + InnerSpacing;
+        Widgets.Label(new Rect(0, y, filterLabelWidth, CheckboxHeight), filterLabel);
+        var newModFilter = Widgets.TextField(
+            new Rect(filterLabelWidth, y, area.width - filterLabelWidth, CheckboxHeight),
+            _modFilter
+        );
+        if (newModFilter != _modFilter)
+        {
+            _modFilter = newModFilter;
+            ApplyModFilter();
+        }
+        y += CheckboxHeight + OuterSpacing;
 
         var bottomOffset = ButtonHeight + OuterSpacing + InnerSpacing; // Button height + spacing + padding
         _table.StartTable(0, y, area.width, area.height - y - bottomOffset);
 
         var row = 0;
-        foreach (var info in _sessionViewData.ModViewData)
+        foreach (var info in _filteredModViewData)
         {
             if (_table.IsRowVisible(row))
             {

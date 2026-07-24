@@ -3,7 +3,7 @@
 [HotSwappable]
 internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidthsTemplate)
 {
-    private readonly int _rowCount = rowCount;
+    private int _rowCount = rowCount;
     private readonly float _rowHeight = rowHeight;
     private readonly float[] _columnWidthsTemplate = columnWidthsTemplate;
     private readonly float[] _columnOffsets = new float[columnWidthsTemplate.Length];
@@ -12,6 +12,20 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
     private Rect _viewRect;
     private Rect _userRect;
     private Vector2 _scrollPosition = Vector2.zero;
+
+    public int RowCount
+    {
+        get => _rowCount;
+        set
+        {
+            if (_rowCount == value)
+            {
+                return;
+            }
+            _rowCount = value;
+            _viewRect.height = _rowCount * _rowHeight;
+        }
+    }
 
     public void StartTable(float x, float y, float width, float height)
     {

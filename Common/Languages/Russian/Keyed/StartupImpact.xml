@@ -53,6 +53,7 @@
     <LoadingProgress.StartupImpact.LogarithmicScale>Использовать логарифмическую шкалу</LoadingProgress.StartupImpact.LogarithmicScale>
     <LoadingProgress.StartupImpact.LogarithmicScale.Tip>Когда включено, значения влияния на запуск отображаются в логарифмической шкале: значение в 10 раз больше будет выглядеть лишь в 2 раза больше. Это помогает сравнивать сильно различающиеся воздействия.</LoadingProgress.StartupImpact.LogarithmicScale.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Переключить видимость влияния этого мода на время запуска. Если это мод с наибольшим влиянием, после скрытия за эталон будет взят следующий по величине.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
+    <LoadingProgress.StartupImpact.FilterMods>Фильтр:</LoadingProgress.StartupImpact.FilterMods>
     <LoadingProgress.StartupImpact.Saved>Сохранено успешно</LoadingProgress.StartupImpact.Saved>
     <LoadingProgress.StartupImpact.SaveFailed>Ошибка сохранения: {0}</LoadingProgress.StartupImpact.SaveFailed>
     <LoadingProgress.StartupImpact.Loaded>Загружено успешно</LoadingProgress.StartupImpact.Loaded>
