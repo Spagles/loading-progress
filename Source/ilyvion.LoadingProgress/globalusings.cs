@@ -1,3 +1,4 @@
+#pragma warning disable IDE0005
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
@@ -5,3 +6,4 @@ global using System.Linq;
 global using HarmonyLib;
 global using RimWorld;
 global using Verse;
+#pragma warning restore IDE0005

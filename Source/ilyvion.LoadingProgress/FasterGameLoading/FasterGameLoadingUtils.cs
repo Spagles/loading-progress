@@ -17,16 +17,15 @@ internal static class FasterGameLoadingUtils
         }
     }
 
-    private static HashSet<ModContentPack>? _loadedMods;
     public static HashSet<ModContentPack>? LoadedMods
     {
         get
         {
-            _loadedMods ??=
+            field ??=
                 AccessTools
                     .Field("FasterGameLoading.ModContentPack_ReloadContentInt_Patch:loadedMods")
                     ?.GetValue(null) as HashSet<ModContentPack>;
-            return _loadedMods;
+            return field;
         }
     }
 

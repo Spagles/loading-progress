@@ -3,7 +3,6 @@
 internal abstract class SingleThreadedProfiler(string measurementTarget)
 {
     private readonly object _modificationLock = new();
-    private readonly string _measurementTarget = measurementTarget;
     private readonly List<string> _categories = [];
 
     public float Total { get; private set; }
@@ -18,8 +17,10 @@ internal abstract class SingleThreadedProfiler(string measurementTarget)
         return res;
     }
 
-    private string ProfilerName =>
-        _measurementTarget == null ? "" : $"{_measurementTarget} profiler";
+    private string ProfilerName
+    {
+        get => field == null ? "" : $"{field} profiler";
+    } = measurementTarget;
 
     public void Start(string category)
     {

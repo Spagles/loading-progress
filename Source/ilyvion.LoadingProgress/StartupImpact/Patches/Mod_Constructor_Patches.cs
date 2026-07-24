@@ -173,7 +173,7 @@ internal static class Harmony_Patches
         if (Mod_Constructor_Patches._currentModAssembly != assembly)
         {
             LoadingProgressMod.Warning(
-                $"Mod called PatchAllUncategorized with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly!.FullName} != {assembly.FullName}. This may cause issues."
+                $"Mod called PatchAllUncategorized with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly.FullName} != {assembly.FullName}. This may cause issues."
             );
         }
 
@@ -225,7 +225,7 @@ internal static class Harmony_Patches
         if (Mod_Constructor_Patches._currentModAssembly != assembly)
         {
             LoadingProgressMod.Warning(
-                $"Mod called PatchCategory with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly!.FullName} != {assembly.FullName}. This may cause issues."
+                $"Mod called PatchCategory with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly.FullName} != {assembly.FullName}. This may cause issues."
             );
         }
 
@@ -277,7 +277,7 @@ internal static class Harmony_Patches
         if (Mod_Constructor_Patches._currentModAssembly != assembly)
         {
             LoadingProgressMod.Warning(
-                $"Mod called UnpatchCategory with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly!.FullName} != {assembly.FullName}. This may cause issues."
+                $"Mod called UnpatchCategory with a different assembly than itself: {Mod_Constructor_Patches._currentModAssembly.FullName} != {assembly.FullName}. This may cause issues."
             );
         }
 

@@ -3,7 +3,6 @@
 [HotSwappable]
 internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidthsTemplate)
 {
-    private int _rowCount = rowCount;
     private readonly float _rowHeight = rowHeight;
     private readonly float[] _columnWidthsTemplate = columnWidthsTemplate;
     private readonly float[] _columnOffsets = new float[columnWidthsTemplate.Length];
@@ -15,17 +14,17 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
 
     public int RowCount
     {
-        get => _rowCount;
+        get;
         set
         {
-            if (_rowCount == value)
+            if (field == value)
             {
                 return;
             }
-            _rowCount = value;
-            _viewRect.height = _rowCount * _rowHeight;
+            field = value;
+            _viewRect.height = field * _rowHeight;
         }
-    }
+    } = rowCount;
 
     public void StartTable(float x, float y, float width, float height)
     {
@@ -39,7 +38,7 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
             _viewRect.x = 0;
             _viewRect.y = 0;
             _viewRect.width = width - 16f;
-            _viewRect.height = _rowCount * _rowHeight;
+            _viewRect.height = RowCount * _rowHeight;
 
             float totalNeededWidth = 0;
             var totalAvailableWidth = _viewRect.width;
@@ -88,7 +87,7 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
                 $"Bad column coordinate: {column}"
             );
         }
-        if (row < 0 || row >= _rowCount)
+        if (row < 0 || row >= RowCount)
         {
             throw new ArgumentOutOfRangeException(nameof(row), $"Bad row coordinate: {row}");
         }

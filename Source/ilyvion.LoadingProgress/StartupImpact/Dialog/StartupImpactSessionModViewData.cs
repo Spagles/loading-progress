@@ -17,13 +17,13 @@ internal sealed class StartupImpactSessionModViewData(StartupImpactSessionModDat
         metrics.Clear();
         foreach (var k in sessionViewData.Categories)
         {
-            metrics.Add(ModData.Metrics.TryGetValue(k, out var v) ? v : default!);
+            metrics.Add(ModData.Metrics.TryGetValue(k, out var v) ? v : default);
         }
 
         offThreadMetrics.Clear();
         foreach (var k in sessionViewData.Categories)
         {
-            offThreadMetrics.Add(ModData.OffThreadMetrics.TryGetValue(k, out var v) ? v : default!);
+            offThreadMetrics.Add(ModData.OffThreadMetrics.TryGetValue(k, out var v) ? v : default);
         }
     }
 }

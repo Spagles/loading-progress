@@ -40,7 +40,9 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
         return true;
     }
 
+#pragma warning disable CA1502
     internal static IEnumerable ExecuteToExecuteWhenFinished()
+#pragma warning restore CA1502
     {
         // Once we start with the ExecuteToExecuteWhenFinished,
         // we need to switch the active thread ID
@@ -153,7 +155,7 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                 }
 
                 var modContentPack = (ModContentPack)
-                    reloadContentIntmodContentPackField.GetValue(action.Target)!;
+                    reloadContentIntmodContentPackField.GetValue(action.Target);
                 ModContentPack_ReloadContentInt_Patch.CurrentModContentPack = modContentPack;
                 if (fasterGameLoadingLoadedMods is not null)
                 {

@@ -4,8 +4,6 @@ namespace ilyvion.LoadingProgress.FasterGameLoading;
 
 internal static class FasterGameLoadingProgressWindow
 {
-    private static readonly Vector2 BaseWindowSize = new(776f, 110f);
-
     internal static Vector2 WindowSize
     {
         get
@@ -19,10 +17,10 @@ internal static class FasterGameLoadingProgressWindow
                 return Vector2.zero;
             }
 
-            var windowSize = BaseWindowSize;
+            var windowSize = field;
             return windowSize;
         }
-    }
+    } = new(776f, 110f);
 
     internal static ModContentPack? LoadingMod { get; set; }
 

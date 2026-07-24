@@ -5,12 +5,11 @@ namespace ilyvion.LoadingProgress;
 
 internal sealed partial class LoadingProgressWindow
 {
-    private static readonly Vector2 BaseWindowSize = new(776f, 110f);
     internal static Vector2 WindowSize
     {
         get
         {
-            var windowSize = BaseWindowSize;
+            var windowSize = field;
             if (LoadingProgressMod.Settings.ShowLastLoadingTime)
             {
                 windowSize.y += 30f;
@@ -25,7 +24,7 @@ internal sealed partial class LoadingProgressWindow
             }
             return windowSize;
         }
-    }
+    } = new(776f, 110f);
 
     private static bool HasLastLoadAndHashChanged() =>
         _lastLoadingTime.HasValue
@@ -126,7 +125,7 @@ internal sealed partial class LoadingProgressWindow
             loadingTimeRect.y += progressRect.height + VerticalWidgetMargin;
             loadingTimeRect.height = Text.LineHeight;
 
-            var elapsed = _loadingStopwatch!.Elapsed;
+            var elapsed = _loadingStopwatch.Elapsed;
             if (_lastLoadingTime.HasValue)
             {
                 var totalSeconds = (float)_lastLoadingTime.Value.TotalSeconds;

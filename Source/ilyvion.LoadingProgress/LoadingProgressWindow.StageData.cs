@@ -526,7 +526,7 @@ internal sealed partial class LoadingProgressWindow
                     LoadingStage.ExecuteToExecuteWhenFinished,
                     $"Reloading.{activity.Replace(" ", "_", StringComparison.Ordinal)}",
                     LoadingDataTracker.Current ?? ""
-                )!
+                )
         ),
         new(
             value =>
@@ -578,7 +578,7 @@ internal sealed partial class LoadingProgressWindow
                 CurrentStage = LoadingStage.ExecuteToExecuteWhenFinished2;
             },
             LoadingStage.ExecuteToExecuteWhenFinished2,
-            activity => GetStageTranslation(LoadingStage.ExecuteToExecuteWhenFinished, activity)!
+            activity => GetStageTranslation(LoadingStage.ExecuteToExecuteWhenFinished, activity)
         ),
         new(
             value =>
@@ -658,29 +658,28 @@ internal sealed partial class LoadingProgressWindow
         return count;
     }
 
-    private static LoadingStage currentStage = LoadingStage.Initializing;
     internal static LoadingStage CurrentStage
     {
-        get => currentStage;
+        get;
         set
         {
-            if (currentStage != value)
+            if (field != value)
             {
                 // Record the final progress count for stages we surface session-wide stats for,
                 // before resetting progress for the new stage
                 if (StageProgress is (_, float maxValue))
                 {
-                    LoadingSessionStats.RecordStageCompletion(currentStage, maxValue);
+                    LoadingSessionStats.RecordStageCompletion(field, maxValue);
                 }
 
                 // Reset progress when stage changes
                 StageProgress = null;
                 LoadingDataTracker.Current = null;
 
-                currentStage = value;
+                field = value;
             }
         }
-    }
+    } = LoadingStage.Initializing;
 
     private static string _currentLoadingActivity = string.Empty;
 
