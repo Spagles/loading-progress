@@ -37,20 +37,18 @@ internal static class LanguageDatabase_InitAllMetadata_Patches
 
         _ = codeMatcher
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Dup),
-                    new(OpCodes.Dup),
-                    new(OpCodes.Stloc, mcpLocal.LocalIndex),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LanguageDatabase_InitAllMetadata_Patches),
-                            nameof(BeforeInitAllMetadata)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Dup),
+                new(OpCodes.Dup),
+                new(OpCodes.Stloc, mcpLocal.LocalIndex),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LanguageDatabase_InitAllMetadata_Patches),
+                        nameof(BeforeInitAllMetadata)
+                    )
+                ),
+            ]);
 
         _ = codeMatcher.SearchForward(i =>
             i.Calls(AccessTools.Method(typeof(IEnumerator), nameof(IEnumerator.MoveNext)))
@@ -64,18 +62,16 @@ internal static class LanguageDatabase_InitAllMetadata_Patches
         }
         _ = codeMatcher
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc, mcpLocal.LocalIndex),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LanguageDatabase_InitAllMetadata_Patches),
-                            nameof(AfterInitAllMetadata)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc, mcpLocal.LocalIndex),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LanguageDatabase_InitAllMetadata_Patches),
+                        nameof(AfterInitAllMetadata)
+                    )
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }

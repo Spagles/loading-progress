@@ -30,31 +30,21 @@ internal static class LoadedModManager_LoadModXML
 
         _ = codeMatcher
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_2),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_LoadModXML),
-                            nameof(BeforeLoadDefs)
-                        )
-                    ),
-                ]
-            )
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_2),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(typeof(LoadedModManager_LoadModXML), nameof(BeforeLoadDefs))
+                ),
+            ])
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_2),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_LoadModXML),
-                            nameof(AfterLoadDefs)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_2),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(typeof(LoadedModManager_LoadModXML), nameof(AfterLoadDefs))
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }

@@ -95,14 +95,12 @@ internal sealed class StartupImpactSessionViewData
         }
 
         metricsTotal.Clear();
-        metricsTotal.AddRange(
-            [
-                ModsLoadingTime,
-                hiddenModsLoadingTime,
-                BasegameLoadingTime,
-                Math.Max(0, sessionData.LoadingTime - totalLoadingTime),
-            ]
-        );
+        metricsTotal.AddRange([
+            ModsLoadingTime,
+            hiddenModsLoadingTime,
+            BasegameLoadingTime,
+            Math.Max(0, sessionData.LoadingTime - totalLoadingTime),
+        ]);
     }
 
     public void CalculateBaseGameStats()

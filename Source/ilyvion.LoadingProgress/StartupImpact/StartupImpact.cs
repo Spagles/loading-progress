@@ -58,9 +58,7 @@ internal sealed class StartupImpact
                     }
                     catch (Exception e)
                     {
-                        LoadingProgressMod.Error(
-                            "Failed to auto-save startup impact report: " + e
-                        );
+                        LoadingProgressMod.Error("Failed to auto-save startup impact report: " + e);
                     }
                 });
             }

@@ -35,18 +35,16 @@ internal static class LoadedModManager_ErrorCheckPatches_Patches
 
         _ = codeMatcher
             .Advance(2)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_1),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_ErrorCheckPatches_Patches),
-                            nameof(BeforeErrorCheckPatches)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_1),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedModManager_ErrorCheckPatches_Patches),
+                        nameof(BeforeErrorCheckPatches)
+                    )
+                ),
+            ]);
 
         _ = codeMatcher.SearchForward(i =>
             i.Calls(
@@ -65,18 +63,16 @@ internal static class LoadedModManager_ErrorCheckPatches_Patches
         }
         _ = codeMatcher
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_1),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_ErrorCheckPatches_Patches),
-                            nameof(AfterErrorCheckPatches)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_1),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedModManager_ErrorCheckPatches_Patches),
+                        nameof(AfterErrorCheckPatches)
+                    )
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }

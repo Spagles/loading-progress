@@ -187,7 +187,9 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                         var stepLabel = (string)value;
                         LoadingDataTracker.Current = modContentPack.Name;
                         LoadingProgressWindow.CurrentLoadingActivity = $"LP.Reload {stepLabel}";
-                        if (!string.Equals(stepLabel, lastReloadStepLabel, StringComparison.Ordinal))
+                        if (
+                            !string.Equals(stepLabel, lastReloadStepLabel, StringComparison.Ordinal)
+                        )
                         {
                             reloadContentStepCounter++;
                             lastReloadStepLabel = stepLabel;

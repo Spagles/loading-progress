@@ -50,21 +50,19 @@ internal static class LoadedLanguage_LoadMetadata_Patches
 
         _ = codeMatcher
             .CreateLabel(out var proceedTarget)
-            .Insert(
-                [
-                    new(OpCodes.Dup),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedLanguage_LoadMetadata_Patches),
-                            nameof(IsThisMod)
-                        )
-                    ),
-                    new(OpCodes.Brfalse, proceedTarget),
-                    new(OpCodes.Pop),
-                    new(OpCodes.Br, continueTarget),
-                ]
-            );
+            .Insert([
+                new(OpCodes.Dup),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedLanguage_LoadMetadata_Patches),
+                        nameof(IsThisMod)
+                    )
+                ),
+                new(OpCodes.Brfalse, proceedTarget),
+                new(OpCodes.Pop),
+                new(OpCodes.Br, continueTarget),
+            ]);
 
         return codeMatcher.Instructions();
     }

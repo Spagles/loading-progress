@@ -197,11 +197,7 @@ internal sealed class Settings : ModSettings
             true
         );
         Scribe_Values.Look(ref _trackStartupLoadingImpact, "trackStartupLoadingImpact", false);
-        Scribe_Values.Look(
-            ref _autoSaveStartupImpactReport,
-            "autoSaveStartupImpactReport",
-            false
-        );
+        Scribe_Values.Look(ref _autoSaveStartupImpactReport, "autoSaveStartupImpactReport", false);
         Scribe_Values.Look(ref _progressBarColor, "progressBarColor", Widgets_Progressbar.BarColor);
         Scribe_Values.Look(ref _smallBarColor, "smallBarColor", Widgets_Progressbar.SmallBarColor);
     }

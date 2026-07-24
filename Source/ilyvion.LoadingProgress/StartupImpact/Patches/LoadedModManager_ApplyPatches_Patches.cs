@@ -35,18 +35,16 @@ internal static class LoadedModManager_ApplyPatches_Patches
 
         _ = codeMatcher
             .Advance(2)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_1),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_ApplyPatches_Patches),
-                            nameof(BeforeApplyPatches)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_1),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedModManager_ApplyPatches_Patches),
+                        nameof(BeforeApplyPatches)
+                    )
+                ),
+            ]);
 
         _ = codeMatcher.SearchForward(i =>
             i.Calls(AccessTools.Method(typeof(IEnumerator), nameof(IEnumerator.MoveNext)))
@@ -60,18 +58,16 @@ internal static class LoadedModManager_ApplyPatches_Patches
         }
         _ = codeMatcher
             .Advance(1)
-            .InsertAndAdvance(
-                [
-                    new(OpCodes.Ldloc_1),
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_ApplyPatches_Patches),
-                            nameof(AfterApplyPatches)
-                        )
-                    ),
-                ]
-            );
+            .InsertAndAdvance([
+                new(OpCodes.Ldloc_1),
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedModManager_ApplyPatches_Patches),
+                        nameof(AfterApplyPatches)
+                    )
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }

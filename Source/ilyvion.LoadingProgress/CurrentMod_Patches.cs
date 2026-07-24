@@ -57,17 +57,15 @@ internal static class LoadedModManager_LoadingDataTracker_Patches
 
         _ = codeMatcher
             .Advance(2)
-            .Insert(
-                [
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(LoadedModManager_LoadingDataTracker_Patches),
-                            nameof(CombineIntoUnifiedXMLProgress)
-                        )
-                    ),
-                ]
-            );
+            .Insert([
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(LoadedModManager_LoadingDataTracker_Patches),
+                        nameof(CombineIntoUnifiedXMLProgress)
+                    )
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }
@@ -161,19 +159,17 @@ internal static class XmlInheritance_LoadingDataTracker_Patches
             return original;
         }
 
-        _ = codeMatcher.Insert(
-            [
-                new(
-                    OpCodes.Call,
-                    AccessTools.Method(
-                        typeof(XmlInheritance_LoadingDataTracker_Patches),
-                        nameof(XmlInheritanceProgress)
-                    )
-                ),
-                new(OpCodes.Ldloc_0),
-                new(OpCodes.Ldloc_1),
-            ]
-        );
+        _ = codeMatcher.Insert([
+            new(
+                OpCodes.Call,
+                AccessTools.Method(
+                    typeof(XmlInheritance_LoadingDataTracker_Patches),
+                    nameof(XmlInheritanceProgress)
+                )
+            ),
+            new(OpCodes.Ldloc_0),
+            new(OpCodes.Ldloc_1),
+        ]);
 
         return codeMatcher.Instructions();
     }
@@ -317,17 +313,15 @@ internal static partial class DirectXmlCrossRefLoader_ResolveAllWantedCrossRefer
 
         _ = codeMatcher
             .Advance(1)
-            .Insert(
-                [
-                    new(
-                        OpCodes.Call,
-                        AccessTools.Method(
-                            typeof(DirectXmlCrossRefLoader_ResolveAllWantedCrossReferences_LoadingDataTracker_Patches),
-                            nameof(Stage2Progress)
-                        )
-                    ),
-                ]
-            );
+            .Insert([
+                new(
+                    OpCodes.Call,
+                    AccessTools.Method(
+                        typeof(DirectXmlCrossRefLoader_ResolveAllWantedCrossReferences_LoadingDataTracker_Patches),
+                        nameof(Stage2Progress)
+                    )
+                ),
+            ]);
 
         return codeMatcher.Instructions();
     }
