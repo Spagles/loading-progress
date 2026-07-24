@@ -50,6 +50,16 @@ internal sealed class StaticConstructorOnStartupUtilityReplacement
             _ = info?.Stop(
                 "LoadingProgress.StartupImpact.StaticConstructorOnStartupUtilityCallAll"
             );
+
+            // RimWorld's UpdateCurrentEnumeratorEvent calls MoveNext() in a tight loop with
+            // no rendering in between, only checking its 100ms time budget after each
+            // MoveNext() returns. Without this yield, a slow constructor above blows through
+            // that budget from inside a single MoveNext() call, and the very next thing that
+            // happens before control returns is this loop setting the label for the *next*
+            // item. That's what ends up on screen, so the stall gets misattributed to the
+            // following mod. Yielding here ensures the label still showing when we finally
+            // repaint is the one for the constructor that actually ran.
+            yield return null;
         }
         DeepProfiler.End();
         StaticConstructorOnStartupUtility.coreStaticAssetsLoaded = true;

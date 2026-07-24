@@ -175,18 +175,28 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                 if (!skipReload)
                 {
                     // Reloading content for {modContentPack.Name}.
+                    // ReloadContentInt yields each step's label twice: once before doing the
+                    // step's work and once again right after, purely so we get a chance to
+                    // repaint with the correct label still showing before it moves on to the
+                    // next step. Only count the first occurrence towards progress.
+                    string? lastReloadStepLabel = null;
                     foreach (
                         var value in ReloadContentIntReplacement.ReloadContentInt(modContentPack)
                     )
                     {
+                        var stepLabel = (string)value;
                         LoadingDataTracker.Current = modContentPack.Name;
-                        LoadingProgressWindow.CurrentLoadingActivity = $"LP.Reload {value}";
+                        LoadingProgressWindow.CurrentLoadingActivity = $"LP.Reload {stepLabel}";
+                        if (!string.Equals(stepLabel, lastReloadStepLabel, StringComparison.Ordinal))
+                        {
+                            reloadContentStepCounter++;
+                            lastReloadStepLabel = stepLabel;
+                        }
                         LoadingProgressWindow.StageProgress = (
-                            reloadContentStepCounter + 1,
+                            reloadContentStepCounter,
                             reloadContentStepCount
                         );
                         yield return value;
-                        reloadContentStepCounter++;
                     }
                     // Run the original method to let other mods' prefixes and postfixes run
                     modContentPack.ReloadContentInt();
@@ -284,6 +294,13 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
             {
                 DeepProfiler.End();
             }
+
+            // See the comment on the matching yield in
+            // StaticConstructorOnStartupUtilityReplacement.CallAll(): without this, a slow
+            // action above blows through LongEventHandler's MoveNext() time budget from
+            // inside a single call, and the label for the *next* action gets set before we
+            // ever get a chance to repaint, misattributing the stall.
+            yield return null;
         }
         if (LongEventHandler.toExecuteWhenFinished.Count > 0)
         {

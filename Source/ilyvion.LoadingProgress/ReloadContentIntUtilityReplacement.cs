@@ -20,6 +20,11 @@ internal sealed class ReloadContentIntReplacement
             DeepProfiler.End();
         }
         _ = info?.Stop("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.AudioClips");
+        // Re-yield the same label so the caller gets a chance to repaint with it still
+        // showing, before we move on and set the *next* label. Without this, a slow step
+        // here gets displayed under the following step's name; see the comment on the
+        // matching yield in StaticConstructorOnStartupUtilityReplacement.CallAll().
+        yield return "audio clips";
 
         yield return "textures";
         info?.Start("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.Textures");
@@ -33,6 +38,7 @@ internal sealed class ReloadContentIntReplacement
             DeepProfiler.End();
         }
         _ = info?.Stop("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.Textures");
+        yield return "textures";
 
         yield return "strings";
         info?.Start("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.Strings");
@@ -46,6 +52,7 @@ internal sealed class ReloadContentIntReplacement
             DeepProfiler.End();
         }
         _ = info?.Stop("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.Strings");
+        yield return "strings";
 
         yield return "asset bundles";
         info?.Start("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.AssetBundles");
@@ -61,6 +68,7 @@ internal sealed class ReloadContentIntReplacement
             DeepProfiler.End();
         }
         _ = info?.Stop("LoadingProgress.StartupImpact.ModContentPackReloadContentInt.AssetBundles");
+        yield return "asset bundles";
     }
 }
 

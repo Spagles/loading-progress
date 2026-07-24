@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New opt-in setting to automatically save the startup impact report to `StartupImpactData.xml` after every game startup, so external tools (such as the RimSort mod manager) can display each mod's startup load time without requiring a manual save from the startup impact window. ([#2])
 - Startup impact reports now record each mod's package ID alongside its name, allowing external tools to match report entries to mods reliably. ([#2])
 
+### Fixed
+
+- The loading screen could name the wrong mod when a slow static constructor, delayed-initialization task, or content-reload step caused a long stall; it would instead display whatever came right after it. The stall is now attributed to the mod actually responsible. ([#6])
+- The "current activity" label could get stuck on a stale sub-step (e.g. staying on "Loading strings for..." long after strings had finished loading) instead of returning to what was actually running. ([#6])
+- The "Applying XML patches" and "Loading defs" progress bars could occasionally run past their maximum instead of stopping there.
+- Fixed a rare crash ("Stack empty") that could occur while resolving cross-references during loading.
+
 ## [0.11.0] - 2026-06-08
 
 ### Added
@@ -252,3 +259,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.1.1]: https://github.com/ilyvion/loading-progress/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ilyvion/loading-progress/releases/tag/v0.1.0
 [#2]: https://github.com/ilyvion/loading-progress/issues/2
+[#6]: https://github.com/ilyvion/loading-progress/issues/6
