@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The mod settings menu could crash with an error when opened before the mod had recorded any loading times (e.g. right after a fresh install). The loading time row is now hidden until at least one load has been recorded.
+- The 'show last loading time' corner display could spam errors every frame on the main menu (and after returning to it) when no loading time had been recorded yet. It is now simply not shown until a loading time has been recorded.
 
 ## [0.12.0] - 2026-07-24
 
