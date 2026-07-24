@@ -115,7 +115,6 @@ internal sealed class Verse_LongEventHandler_LongEventsOnGUI_Patch
         var fasterGameLoadingProgressWindowSize = FasterGameLoadingProgressWindow.WindowSize;
 
         float statusRectTop = 0;
-        ;
         switch (LoadingProgressMod.Settings.LoadingWindowPlacement)
         {
             case LoadingWindowPlacement.Top:

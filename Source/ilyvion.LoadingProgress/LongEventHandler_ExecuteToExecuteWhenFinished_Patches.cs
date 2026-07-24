@@ -204,7 +204,6 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                     modContentPack.ReloadContentInt();
                     yield return null;
                 }
-                else { }
                 continue;
             }
             else if (
