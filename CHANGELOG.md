@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-07-25
+
 ### Added
 
 - The 'Giving short hashes to defs' stage now shows a progress bar tracking how many defs have been given a short hash, instead of appearing to hang for its full duration with no feedback.
@@ -272,7 +274,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First implementation of the mod.
 
-[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.13.1...HEAD
+[0.13.1]: https://github.com/ilyvion/loading-progress/compare/v0.13.0..v0.13.1
 [0.13.0]: https://github.com/ilyvion/loading-progress/compare/v0.12.0..v0.13.0
 [0.12.0]: https://github.com/ilyvion/loading-progress/compare/v0.11.0..v0.12.0
 [0.11.0]: https://github.com/ilyvion/loading-progress/compare/v0.10.0..v0.11.0
