@@ -19,6 +19,9 @@ internal sealed class StartupImpactSessionViewData
     private readonly List<float> metricsNonMods = [];
     private readonly List<float> metricsTotal = [];
     private readonly Dictionary<string, Color> categoryColorsNonMods = [];
+    private readonly List<string> categoriesMods = [];
+    private readonly List<float> metricsMods = [];
+    private readonly Dictionary<string, Color> categoryColorsMods = [];
 
     internal IReadOnlyList<StartupImpactSessionModViewData> ModViewData => modViewData.AsReadOnly();
 
@@ -32,6 +35,9 @@ internal sealed class StartupImpactSessionViewData
     public IReadOnlyList<float> MetricsTotal => metricsTotal.AsReadOnly();
     public IReadOnlyDictionary<string, Color> CategoryColorsNonMods =>
         categoryColorsNonMods.AsReadOnly();
+    public IReadOnlyList<string> CategoriesMods => categoriesMods.AsReadOnly();
+    public IReadOnlyList<float> MetricsMods => metricsMods.AsReadOnly();
+    public IReadOnlyDictionary<string, Color> CategoryColorsMods => categoryColorsMods.AsReadOnly();
 
     public StartupImpactSessionViewData(StartupImpactSessionData sessionData)
     {
@@ -101,6 +107,22 @@ internal sealed class StartupImpactSessionViewData
             BasegameLoadingTime,
             Math.Max(0, sessionData.LoadingTime - totalLoadingTime),
         ]);
+
+        categoriesMods.Clear();
+        metricsMods.Clear();
+        foreach (
+            var modView in modViewData
+                .Where(m => !m.HideInUi && m.ModData.TotalImpact > 0)
+                .OrderByDescending(m => m.ModData.TotalImpact)
+        )
+        {
+            var name = modView.ModData.ModName;
+            categoryColorsMods[name] = StartupImpactProfilerUtil.HashColor(
+                modView.ModData.ModPackageId
+            );
+            categoriesMods.Add(name);
+            metricsMods.Add(modView.ModData.TotalImpact);
+        }
     }
 
     public void CalculateBaseGameStats()
@@ -113,13 +135,7 @@ internal sealed class StartupImpactSessionViewData
         {
             var cat = entry.Key;
 
-            var hash = cat.GetHashCode(StringComparison.Ordinal);
-
-            categoryColorsNonMods[cat] = new Color(
-                (hash & 0xff) / 255f,
-                ((hash >> 8) & 0xff) / 255f,
-                ((hash >> 16) & 0xff) / 255f
-            );
+            categoryColorsNonMods[cat] = StartupImpactProfilerUtil.HashColor(cat);
             categoriesNonMods.Add(cat);
             metricsNonMods.Add(entry.Value);
             BasegameLoadingTime += entry.Value;

@@ -443,7 +443,18 @@ internal sealed class DialogStartupImpact : Window
                 ProfilerBar.TimeText(_sessionViewData.ModsLoadingTime)
             )
         );
-        y += modsTitleRect.height + InnerSpacing;
+        y += modsTitleRect.height;
+
+        Rect modsProfileRect = new(0, y, area.width, BarHeight);
+        profilerBar.Draw(
+            modsProfileRect,
+            _sessionViewData.MetricsMods,
+            _sessionViewData.CategoriesMods,
+            _sessionViewData.ModsLoadingTime,
+            _sessionViewData.CategoryColorsMods,
+            translateCategories: false
+        );
+        y += modsProfileRect.height + InnerSpacing;
         Text.Font = GameFont.Small;
 
         var filterLabel = "LoadingProgress.StartupImpact.FilterMods".Translate();

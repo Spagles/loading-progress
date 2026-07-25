@@ -122,6 +122,12 @@ internal static class StartupImpactHtmlExporter
             _ = sb.Append(',');
             AppendString(sb, "packageId", modView.ModData.ModPackageId);
             _ = sb.Append(',');
+            AppendString(
+                sb,
+                "color",
+                ColorToHex(StartupImpactProfilerUtil.HashColor(modView.ModData.ModPackageId))
+            );
+            _ = sb.Append(',');
             AppendNumber(sb, "totalImpactMs", modView.ModData.TotalImpact);
             _ = sb.Append(',');
             AppendNumber(sb, "offThreadTotalImpactMs", modView.ModData.OffThreadTotalImpact);
@@ -491,6 +497,7 @@ internal static class StartupImpactHtmlExporter
   <div class="bar" id="baseGameBar"></div>
 
   <h2 id="modsTitle"></h2>
+  <div class="bar" id="modsBar"></div>
   <div class="filter-row">
     <label for="filterInput">Filter:</label>
     <input type="text" id="filterInput" placeholder="Filter by mod name or package ID">
@@ -786,9 +793,20 @@ internal static class StartupImpactHtmlExporter
     renderBar(document.getElementById("baseGameBar"), DATA.baseGame.segments, DATA.baseGame.loadingTimeMs);
   }
 
+  function renderModsBar() {
+    var visibleMods = DATA.mods.filter(function (mod) { return !state.hidden.has(mod); });
+    var total = visibleMods.reduce(function (sum, mod) { return sum + mod.totalImpactMs; }, 0);
+    var segments = visibleMods
+      .slice()
+      .sort(function (a, b) { return b.totalImpactMs - a.totalImpactMs; })
+      .map(function (mod) { return { label: mod.name, color: mod.color, valueMs: mod.totalImpactMs }; });
+    renderBar(document.getElementById("modsBar"), segments, total);
+  }
+
   function renderAll() {
     renderTotalBar();
     renderBaseGameBar();
+    renderModsBar();
     renderModsTable();
   }
 

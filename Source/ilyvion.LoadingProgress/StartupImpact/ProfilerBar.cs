@@ -31,7 +31,8 @@ internal sealed class ProfilerBar
         IReadOnlyList<float> metrics,
         IReadOnlyList<string> categories,
         float maxImpact,
-        IReadOnlyDictionary<string, Color> categoryColors
+        IReadOnlyDictionary<string, Color> categoryColors,
+        bool translateCategories = true
     )
     {
         // tau is in the same units as the metrics: ms.
@@ -87,6 +88,13 @@ internal sealed class ProfilerBar
             );
         }
 
+        string TooltipLabel(string category)
+        {
+            return translateCategories
+                ? StartupImpactProfilerUtil.TranslateCategory(category)
+                : category;
+        }
+
         void DrawLinearScale(
             IReadOnlyList<float> metrics,
             IReadOnlyList<string> categories,
@@ -115,9 +123,7 @@ internal sealed class ProfilerBar
 
                 TooltipHandler.TipRegion(
                     textRect,
-                    new TipSignal(
-                        $"{StartupImpactProfilerUtil.TranslateCategory(categories[i])}: {TimeText(impact)}"
-                    )
+                    new TipSignal($"{TooltipLabel(categories[i])}: {TimeText(impact)}")
                 );
 
                 x += width;
@@ -178,9 +184,7 @@ internal sealed class ProfilerBar
 
                 TooltipHandler.TipRegion(
                     textRect,
-                    new TipSignal(
-                        $"{StartupImpactProfilerUtil.TranslateCategory(categories[i])}: {TimeText(impact)}"
-                    )
+                    new TipSignal($"{TooltipLabel(categories[i])}: {TimeText(impact)}")
                 );
 
                 xCursor += width;
