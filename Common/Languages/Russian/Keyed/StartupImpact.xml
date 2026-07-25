@@ -52,7 +52,9 @@
     <LoadingProgress.StartupImpact.StartupMods>Влияние модов на запуск: {0}</LoadingProgress.StartupImpact.StartupMods>
     <LoadingProgress.StartupImpact.StartupNonmods>Не связано напрямую с модами: {0}</LoadingProgress.StartupImpact.StartupNonmods>
     <LoadingProgress.StartupImpact.LogarithmicScale>Использовать логарифмическую шкалу</LoadingProgress.StartupImpact.LogarithmicScale>
-    <LoadingProgress.StartupImpact.LogarithmicScale.Tip>Когда включено, значения влияния на запуск отображаются в логарифмической шкале: значение в 10 раз больше будет выглядеть лишь в 2 раза больше. Это помогает сравнивать сильно различающиеся воздействия.</LoadingProgress.StartupImpact.LogarithmicScale.Tip>
+    <LoadingProgress.StartupImpact.LogarithmicScale.Tip>Когда включено, значения влияния на запуск отображаются в логарифмической шкале, сжимая большие различия во влиянии, чтобы их было легче сравнивать. Используйте появляющийся рядом с этой опцией ползунок Детализация, чтобы настроить силу сжатия.</LoadingProgress.StartupImpact.LogarithmicScale.Tip>
+    <LoadingProgress.StartupImpact.ScaleDetail>Детализация: {0}</LoadingProgress.StartupImpact.ScaleDetail>
+    <LoadingProgress.StartupImpact.ScaleDetail.Tip>Значения влияния меньше этой величины отображаются близко к их истинным пропорциям; значения больше неё сжимаются сильнее, чтобы один очень медленный мод не заглушал остальную часть шкалы. Уменьшите значение, чтобы было легче разглядеть небольшие различия между быстрыми модами; увеличьте его, чтобы крупные воздействия выглядели пропорционально больше.</LoadingProgress.StartupImpact.ScaleDetail.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Переключить видимость влияния этого мода на время запуска. Если это мод с наибольшим влиянием, после скрытия за эталон будет взят следующий по величине.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
     <LoadingProgress.StartupImpact.FilterMods>Фильтр:</LoadingProgress.StartupImpact.FilterMods>
     <LoadingProgress.StartupImpact.Saved>Сохранено успешно</LoadingProgress.StartupImpact.Saved>

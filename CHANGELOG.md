@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Startup Impact window's mod table now has a filter box, so you can quickly find a specific mod's impact by name or package ID instead of scrolling through the whole (potentially very long) mod list.
 - The Startup Impact window now shows a small summary of how much work the last load actually did: the number of defs parsed, patch operations applied, and mods loaded. This is also saved to the startup impact report file for external tools to read.
 - The 'Loading window placement' setting now has a 'Custom' option. Picking it adds a 'Set custom position...' button that lets you drag a life-size stand-in for the loading window to wherever you want it on your screen. The chosen position is remembered proportionally, so it stays in the same relative spot even if you later change your screen resolution.
+- The Startup Impact window now has a 'Detail' slider next to the 'Use logarithmic scale' checkbox, shown only while that option is enabled. It lets you tune how strongly the logarithmic scale compresses large values, so you can make small differences between fast mods easier to see, or keep big impacts looking proportionally larger.
 
 ### Fixed
 

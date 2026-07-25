@@ -7,6 +7,12 @@ internal sealed class ProfilerBar
     public float ProgressBarPadding { get; set; } = 4f;
     public Color DefaultColor { get; set; } = Color.gray;
 
+    /// <summary>
+    /// Reference scale (in ms) for the logarithmic transform: values well below this stay close
+    /// to proportional, values well above it get compressed more heavily.
+    /// </summary>
+    public float Tau { get; set; } = 1000f;
+
     public static string TimeText(float ms) =>
         ms > 10000
             ? "LoadingProgress.StartupImpact.Seconds".Translate(
@@ -28,8 +34,8 @@ internal sealed class ProfilerBar
         IReadOnlyDictionary<string, Color> categoryColors
     )
     {
-        // Choose tau in the same units as the metrics: 1000 since we're using ms.
-        var tau = 1000f;
+        // tau is in the same units as the metrics: ms.
+        var tau = Tau;
 
         var innerX = rect.x + ProgressBarPadding;
         var innerY = rect.y + ProgressBarPadding;

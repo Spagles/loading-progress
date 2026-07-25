@@ -12,6 +12,10 @@ internal sealed class DialogStartupImpact : Window
     private const float CheckboxHeight = 24f;
     private const float TitleHeight = 30f;
     private const float BarHeight = 46f;
+    private const float ScaleDetailSliderWidth = 160f;
+    private const float ScaleDetailMinTau = 100f;
+    private const float ScaleDetailMaxTau = 5000f;
+    private const float ScaleDetailRoundTo = 50f;
 
     private static readonly Dictionary<string, Color> CategoryColors = new()
     {
@@ -190,6 +194,7 @@ internal sealed class DialogStartupImpact : Window
     private static readonly Color DefaultColor = new(128f / 255f, 128f / 255f, 128f / 255f);
 
     private bool _useLogScale;
+    private float _scaleDetailTau = 1000f;
     private UiTable _table;
     private StartupImpactSessionData _sessionData;
     private StartupImpactSessionViewData _sessionViewData;
@@ -256,11 +261,36 @@ internal sealed class DialogStartupImpact : Window
     {
         float y = 0;
 
-        // Log scale checkbox (top right)
+        // Log scale checkbox (top right), with an optional detail slider to its left
         Text.Anchor = TextAnchor.MiddleRight;
         var label = "LoadingProgress.StartupImpact.LogarithmicScale".Translate();
         var checkboxWidth = Text.CalcSize(label).x + 24f + OuterSpacing;
         var checkboxRect = new Rect(area.width - checkboxWidth, y, checkboxWidth, CheckboxHeight);
+
+        if (_useLogScale)
+        {
+            var sliderRect = new Rect(
+                checkboxRect.x - OuterSpacing - ScaleDetailSliderWidth,
+                y + 2,
+                ScaleDetailSliderWidth,
+                CheckboxHeight
+            );
+            _scaleDetailTau = Widgets.HorizontalSlider(
+                sliderRect,
+                _scaleDetailTau,
+                ScaleDetailMinTau,
+                ScaleDetailMaxTau,
+                label: "LoadingProgress.StartupImpact.ScaleDetail".Translate(
+                    ProfilerBar.TimeText(_scaleDetailTau)
+                ),
+                roundTo: ScaleDetailRoundTo
+            );
+            TooltipHandler.TipRegion(
+                sliderRect,
+                "LoadingProgress.StartupImpact.ScaleDetail.Tip".Translate()
+            );
+        }
+
         Widgets.CheckboxLabeled(checkboxRect, label, ref _useLogScale);
         TooltipHandler.TipRegion(
             checkboxRect,
@@ -275,6 +305,7 @@ internal sealed class DialogStartupImpact : Window
             UseLogScale = _useLogScale,
             ProgressBarPadding = 2f,
             DefaultColor = DefaultColor,
+            Tau = _scaleDetailTau,
         };
 
         Rect titleRect = new(0, y, area.width, TitleHeight);
