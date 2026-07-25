@@ -188,9 +188,87 @@ internal static class StartupImpactHtmlExporter
             "generatedAt",
             DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
         );
+        _ = sb.Append(',');
+
+        AppendStrings(sb);
 
         _ = sb.Append('}');
         return sb.ToString();
+    }
+
+    private static void AppendStrings(StringBuilder sb)
+    {
+        _ = sb.Append("\"strings\":{");
+        AppendString(
+            sb,
+            "reportTitle",
+            "LoadingProgress.StartupImpact.HtmlReport.Title".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(sb, "title", "LoadingProgress.StartupImpact.StartupTime".Translate());
+        _ = sb.Append(',');
+        AppendString(sb, "sessionStats", "LoadingProgress.StartupImpact.SessionStats".Translate());
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "baseGameTitle",
+            "LoadingProgress.StartupImpact.StartupNonmods".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(sb, "modsTitle", "LoadingProgress.StartupImpact.StartupMods".Translate());
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "logScaleLabel",
+            "LoadingProgress.StartupImpact.LogarithmicScale".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "logScaleTip",
+            "LoadingProgress.StartupImpact.LogarithmicScale.Tip".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "scaleDetailLabel",
+            "LoadingProgress.StartupImpact.ScaleDetail".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "scaleDetailTip",
+            "LoadingProgress.StartupImpact.ScaleDetail.Tip".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "toggleModVisibilityTip",
+            "LoadingProgress.StartupImpact.ToggleModVisibility.Tip".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(sb, "filterLabel", "LoadingProgress.StartupImpact.FilterMods".Translate());
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "filterPlaceholder",
+            "LoadingProgress.StartupImpact.FilterMods.Placeholder".Translate()
+        );
+        _ = sb.Append(',');
+        AppendString(sb, "columnMod", "LoadingProgress.StartupImpact.ColumnName".Translate());
+        _ = sb.Append(',');
+        AppendString(sb, "columnImpact", "LoadingProgress.StartupImpact.ColumnImpact".Translate());
+        _ = sb.Append(',');
+        AppendString(sb, "footer", "LoadingProgress.StartupImpact.HtmlReport.Footer".Translate());
+        _ = sb.Append(',');
+        AppendString(sb, "secondsFormat", "LoadingProgress.StartupImpact.Seconds".Translate());
+        _ = sb.Append(',');
+        AppendString(
+            sb,
+            "millisecondsFormat",
+            "LoadingProgress.StartupImpact.Milliseconds".Translate()
+        );
+        _ = sb.Append('}');
     }
 
     private static void AppendSegments(
@@ -526,12 +604,12 @@ internal static class StartupImpactHtmlExporter
     <h1 id="title"></h1>
     <div class="logscale-controls">
       <div class="slider-wrap" id="sliderWrap" style="display:none">
-        <label for="tauSlider" id="sliderLabel" data-tip="Impact values below this amount of time are shown close to their true proportions; values above it get compressed more heavily so a single very slow mod does not drown out the rest of the bar. Lower this to make small differences between fast mods easier to see; raise it to keep large impacts looking proportionally larger."></label>
+        <label for="tauSlider" id="sliderLabel"></label>
         <input type="range" id="tauSlider" min="100" max="5000" step="50" value="1000">
       </div>
-      <label id="logCheckboxWrap" data-tip="When this is enabled, the startup impact values will be displayed on a logarithmic scale, compressing large differences in impact so they are easier to compare. Use the Detail slider that appears next to this option to fine-tune how strong the compression is.">
+      <label id="logCheckboxWrap">
         <input type="checkbox" id="logToggle">
-        <span>Use logarithmic scale</span>
+        <span id="logScaleLabelText"></span>
       </label>
     </div>
   </div>
@@ -545,8 +623,8 @@ internal static class StartupImpactHtmlExporter
   <h2 id="modsTitle"></h2>
   <div class="bar" id="modsBar"></div>
   <div class="filter-row">
-    <label for="filterInput">Filter:</label>
-    <input type="text" id="filterInput" placeholder="Filter by mod name or package ID">
+    <label for="filterInput" id="filterLabelText"></label>
+    <input type="text" id="filterInput">
   </div>
   <div class="table-header" id="tableHeader">
     <div></div>
@@ -566,6 +644,13 @@ internal static class StartupImpactHtmlExporter
 
   var DATA = /*__DATA_JSON__*/;
 
+  document.title = DATA.strings.reportTitle;
+  document.getElementById("sliderLabel").setAttribute("data-tip", DATA.strings.scaleDetailTip);
+  document.getElementById("logCheckboxWrap").setAttribute("data-tip", DATA.strings.logScaleTip);
+  document.getElementById("logScaleLabelText").textContent = DATA.strings.logScaleLabel;
+  document.getElementById("filterLabelText").textContent = DATA.strings.filterLabel;
+  document.getElementById("filterInput").setAttribute("placeholder", DATA.strings.filterPlaceholder);
+
   var state = {
     useLog: false,
     tau: 1000,
@@ -579,12 +664,12 @@ internal static class StartupImpactHtmlExporter
 
   function timeText(ms) {
     if (ms > 10000) {
-      return (ms / 1000).toFixed(1) + " s";
+      return DATA.strings.secondsFormat.replace("{0}", (ms / 1000).toFixed(1));
     }
     if (ms > 1000) {
-      return (ms / 1000).toFixed(2) + " s";
+      return DATA.strings.secondsFormat.replace("{0}", (ms / 1000).toFixed(2));
     }
-    return Math.round(ms) + " ms";
+    return DATA.strings.millisecondsFormat.replace("{0}", Math.round(ms));
   }
 
   function logScaleTransform(x, tau) {
@@ -725,7 +810,7 @@ internal static class StartupImpactHtmlExporter
       { label: cats[3].label, color: cats[3].color, valueMs: untracked }
     ];
     renderBar(document.getElementById("totalBar"), segments, DATA.loadingTimeMs);
-    document.getElementById("modsTitle").textContent = "Mods startup impact: " + timeText(modsTotal);
+    document.getElementById("modsTitle").textContent = DATA.strings.modsTitle.replace("{0}", timeText(modsTotal));
   }
 
   function renderModRow(mod, sessionMaxImpact) {
@@ -736,10 +821,7 @@ internal static class StartupImpactHtmlExporter
     eye.className = "eye";
     eye.type = "button";
     eye.textContent = state.hidden.has(mod) ? "–" : "◉";
-    eye.setAttribute(
-      "data-tip",
-      "Toggle the visibility of this mod's impact on startup performance. If this is currently the mod with the highest impact, its impact will no longer be used as a reference point for other mods, but instead the next highest impact mod will be used."
-    );
+    eye.setAttribute("data-tip", DATA.strings.toggleModVisibilityTip);
     eye.addEventListener("mouseenter", function (evt) { showTooltip(evt, eye.getAttribute("data-tip")); });
     eye.addEventListener("mousemove", moveTooltip);
     eye.addEventListener("mouseleave", hideTooltip);
@@ -812,7 +894,7 @@ internal static class StartupImpactHtmlExporter
   function updateSortHeader() {
     document.querySelectorAll(".sort-col").forEach(function (el) {
       var col = el.getAttribute("data-col");
-      var label = col === "name" ? "Mod" : "Impact";
+      var label = col === "name" ? DATA.strings.columnMod : DATA.strings.columnImpact;
       if (state.sortColumn === col) {
         label += " " + (state.sortAscending ? "▲" : "▼");
       }
@@ -868,20 +950,21 @@ internal static class StartupImpactHtmlExporter
     renderModsTable();
   }
 
-  document.getElementById("title").textContent = "Startup time: " + timeText(DATA.loadingTimeMs);
+  document.getElementById("title").textContent =
+    DATA.strings.title.replace("{0}", timeText(DATA.loadingTimeMs));
 
   if (DATA.sessionStats) {
-    document.getElementById("sessionStats").textContent =
-      DATA.sessionStats.defsParsed.toLocaleString() + " defs parsed, "
-      + DATA.sessionStats.patchOperationsApplied.toLocaleString() + " patch operations applied, "
-      + DATA.sessionStats.modsLoaded.toLocaleString() + " mods loaded";
+    document.getElementById("sessionStats").textContent = DATA.strings.sessionStats
+      .replace("{0}", DATA.sessionStats.defsParsed.toLocaleString())
+      .replace("{1}", DATA.sessionStats.patchOperationsApplied.toLocaleString())
+      .replace("{2}", DATA.sessionStats.modsLoaded.toLocaleString());
   }
 
   document.getElementById("baseGameTitle").textContent =
-    "Not directly related to mods: " + timeText(DATA.baseGame.loadingTimeMs);
+    DATA.strings.baseGameTitle.replace("{0}", timeText(DATA.baseGame.loadingTimeMs));
 
   document.getElementById("footer").textContent =
-    "Generated by Loading Progress on " + DATA.generatedAt + ".";
+    DATA.strings.footer.replace("{0}", DATA.generatedAt);
 
   var logToggle = document.getElementById("logToggle");
   var sliderWrap = document.getElementById("sliderWrap");
@@ -890,8 +973,7 @@ internal static class StartupImpactHtmlExporter
   var filterInput = document.getElementById("filterInput");
 
   function updateSliderLabel() {
-    var text = "Detail: " + timeText(state.tau);
-    sliderLabel.textContent = text;
+    sliderLabel.textContent = DATA.strings.scaleDetailLabel.replace("{0}", timeText(state.tau));
   }
   updateSliderLabel();
 

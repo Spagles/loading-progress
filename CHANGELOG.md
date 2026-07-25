@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Since 0.12.0, the 'current activity' label almost always showed the generic `ExecuteToExecuteWhenFinished()` instead of naming the specific delayed-initialization task actually running. This was a side effect of the 0.12.0 fix for stalls being attributed to the wrong mod; the correct task name is shown again now.
 - The progress bar shown while Faster Game Loading loads mod content early ignored your custom progress bar colors from the settings menu, always using the default colors instead. It now matches the main loading window's bar.
 - The Startup Impact window now always goes back to showing the current session's data once closed, instead of potentially still showing a previously loaded report if reopened.
+- The Startup Impact window's exported HTML report was always in English, even for players using a non-English game language where the in-game window itself was fully translated. The exported report now uses the same language as the game.
 
 ## [0.12.0] - 2026-07-24
 

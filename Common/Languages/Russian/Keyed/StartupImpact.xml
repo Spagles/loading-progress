@@ -57,6 +57,7 @@
     <LoadingProgress.StartupImpact.ScaleDetail.Tip>Значения влияния меньше этой величины отображаются близко к их истинным пропорциям; значения больше неё сжимаются сильнее, чтобы один очень медленный мод не заглушал остальную часть шкалы. Уменьшите значение, чтобы было легче разглядеть небольшие различия между быстрыми модами; увеличьте его, чтобы крупные воздействия выглядели пропорционально больше.</LoadingProgress.StartupImpact.ScaleDetail.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Переключить видимость влияния этого мода на время запуска. Если это мод с наибольшим влиянием, после скрытия за эталон будет взят следующий по величине.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
     <LoadingProgress.StartupImpact.FilterMods>Фильтр:</LoadingProgress.StartupImpact.FilterMods>
+    <LoadingProgress.StartupImpact.FilterMods.Placeholder>Фильтр по названию мода или ID пакета</LoadingProgress.StartupImpact.FilterMods.Placeholder>
     <LoadingProgress.StartupImpact.ColumnName>Мод</LoadingProgress.StartupImpact.ColumnName>
     <LoadingProgress.StartupImpact.ColumnImpact>Влияние</LoadingProgress.StartupImpact.ColumnImpact>
     <LoadingProgress.StartupImpact.ExportHtml>Экспорт в HTML</LoadingProgress.StartupImpact.ExportHtml>
@@ -70,4 +71,6 @@
     <LoadingProgress.StartupImpact.LoadFailedNoData>Ошибка загрузки: сохранённые данные не найдены</LoadingProgress.StartupImpact.LoadFailedNoData>
     <LoadingProgress.StartupImpact.LoadFailed>Ошибка загрузки: {0}</LoadingProgress.StartupImpact.LoadFailed>
     <LoadingProgress.StartupImpact.Disabled>&lt;i&gt;Отслеживание влияния на время запуска отключено в настройках&lt;/i&gt;</LoadingProgress.StartupImpact.Disabled>
+    <LoadingProgress.StartupImpact.HtmlReport.Title>Отчёт о влиянии на время запуска</LoadingProgress.StartupImpact.HtmlReport.Title>
+    <LoadingProgress.StartupImpact.HtmlReport.Footer>Создано модом Loading Progress {0}.</LoadingProgress.StartupImpact.HtmlReport.Footer>
 </LanguageData>
