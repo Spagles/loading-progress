@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Startup impact timing recorded for work done on background threads (e.g. while mods are being parsed in parallel) could be undercounted, since simultaneous updates from different threads could overwrite each other instead of adding up.
 - The base game's share of background-thread startup work was never saved or exported, even though the equivalent per-mod background-thread work was.
 - A malformed or corrupted translation file from any loaded mod could crash the loading screen while translations were being loaded. Such a file is now skipped (with a warning logged) instead.
+- The loading window's 'Loading progress' header was always shown in English regardless of your game's language. It's now translated like the rest of the window (Russian translation included).
 
 ## [0.12.0] - 2026-07-24
 
