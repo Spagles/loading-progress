@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using ilyvion.LoadingProgress.StartupImpact.Dialog.Export;
 
 namespace ilyvion.LoadingProgress.StartupImpact.Dialog;
 
@@ -6,6 +7,7 @@ namespace ilyvion.LoadingProgress.StartupImpact.Dialog;
 internal sealed class DialogStartupImpact : Window
 {
     private const float ButtonWidth = 80f;
+    private const float ExportButtonWidth = 110f;
     private const float ButtonHeight = 32f;
     private const float OuterSpacing = 8f;
     private const float InnerSpacing = 4f;
@@ -207,6 +209,7 @@ internal sealed class DialogStartupImpact : Window
     private string _statusText = "";
     private double? _statusTextSetTime;
     private const float StatusTextDisplayTimeSeconds = 5f;
+    private string? _exportedPath;
     private string StatusText
     {
         get => _statusText;
@@ -446,12 +449,49 @@ internal sealed class DialogStartupImpact : Window
         _table.EndTable();
 
         GUI.color = Color.white;
-        var x = area.width - ((ButtonWidth + OuterSpacing) * 3);
+        var buttonsStartX =
+            area.width - ((ButtonWidth + OuterSpacing) * 3) - (ExportButtonWidth + OuterSpacing);
+        var x = buttonsStartX;
         var yBtn = area.height - ButtonHeight - 3f;
 
-        HandleStatus(area, yBtn);
+        HandleStatus(yBtn, buttonsStartX);
+        if (
+            Widgets.ButtonText(
+                new Rect(x, yBtn, ExportButtonWidth, ButtonHeight),
+                "LoadingProgress.StartupImpact.ExportHtml".Translate()
+            )
+        )
+        {
+            try
+            {
+                var html = StartupImpactHtmlExporter.BuildReport(
+                    _sessionData,
+                    _sessionViewData,
+                    CategoryColors,
+                    DefaultColor
+                );
+                var exportPath = Path.Combine(
+                    GenFilePaths.SaveDataFolderPath,
+                    GenText.SanitizeFilename("StartupImpactReport.html")
+                );
+                File.WriteAllText(exportPath, html);
+                StatusText = "LoadingProgress.StartupImpact.Exported".Translate();
+                _exportedPath = exportPath;
+            }
+            catch (Exception ex)
+            {
+                StatusText = "LoadingProgress.StartupImpact.ExportFailed".Translate(ex.Message);
+                _exportedPath = null;
+            }
+        }
+        TooltipHandler.TipRegion(
+            new Rect(x, yBtn, ExportButtonWidth, ButtonHeight),
+            "LoadingProgress.StartupImpact.ExportHtml.Tip".Translate()
+        );
+        x += ExportButtonWidth + OuterSpacing;
         if (Widgets.ButtonText(new Rect(x, yBtn, ButtonWidth, ButtonHeight), "Save".Translate()))
         {
+            _exportedPath = null;
             try
             {
                 StartupImpactSessionStorage.Save(_sessionData);
@@ -465,6 +505,7 @@ internal sealed class DialogStartupImpact : Window
         x += ButtonWidth + OuterSpacing;
         if (Widgets.ButtonText(new Rect(x, yBtn, ButtonWidth, ButtonHeight), "Load".Translate()))
         {
+            _exportedPath = null;
             try
             {
                 var newSessionData = StartupImpactSessionStorage.Load();
@@ -499,7 +540,7 @@ internal sealed class DialogStartupImpact : Window
         }
         Text.Anchor = TextAnchor.UpperLeft;
 
-        void HandleStatus(Rect area, float yBtn)
+        void HandleStatus(float yBtn, float buttonsStartX)
         {
             // Show SaveStatus if set, and clear after timeout
             if (
@@ -512,16 +553,16 @@ internal sealed class DialogStartupImpact : Window
             }
             else if (!string.IsNullOrEmpty(StatusText))
             {
+                var statusRect = new Rect(0, yBtn, buttonsStartX - OuterSpacing, ButtonHeight);
                 Text.Anchor = TextAnchor.MiddleRight;
-                Widgets.Label(
-                    new Rect(
-                        0,
-                        yBtn,
-                        area.width - ((ButtonWidth + OuterSpacing) * 3) - OuterSpacing,
-                        ButtonHeight
-                    ),
-                    (TaggedString)StatusText
-                );
+                Widgets.Label(statusRect, (TaggedString)StatusText);
+                if (_exportedPath != null)
+                {
+                    TooltipHandler.TipRegion(
+                        statusRect,
+                        "LoadingProgress.StartupImpact.Exported.Tip".Translate(_exportedPath)
+                    );
+                }
             }
         }
     }

@@ -57,6 +57,11 @@
     <LoadingProgress.StartupImpact.ScaleDetail.Tip>Значения влияния меньше этой величины отображаются близко к их истинным пропорциям; значения больше неё сжимаются сильнее, чтобы один очень медленный мод не заглушал остальную часть шкалы. Уменьшите значение, чтобы было легче разглядеть небольшие различия между быстрыми модами; увеличьте его, чтобы крупные воздействия выглядели пропорционально больше.</LoadingProgress.StartupImpact.ScaleDetail.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Переключить видимость влияния этого мода на время запуска. Если это мод с наибольшим влиянием, после скрытия за эталон будет взят следующий по величине.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
     <LoadingProgress.StartupImpact.FilterMods>Фильтр:</LoadingProgress.StartupImpact.FilterMods>
+    <LoadingProgress.StartupImpact.ExportHtml>Экспорт в HTML</LoadingProgress.StartupImpact.ExportHtml>
+    <LoadingProgress.StartupImpact.ExportHtml.Tip>Экспортировать данные о влиянии этой сессии на время запуска в виде автономного HTML-отчёта, который можно открыть в браузере или отправить другим без необходимости запускать игру.</LoadingProgress.StartupImpact.ExportHtml.Tip>
+    <LoadingProgress.StartupImpact.Exported>Экспортировано успешно</LoadingProgress.StartupImpact.Exported>
+    <LoadingProgress.StartupImpact.Exported.Tip>Сохранено в {0}</LoadingProgress.StartupImpact.Exported.Tip>
+    <LoadingProgress.StartupImpact.ExportFailed>Ошибка экспорта: {0}</LoadingProgress.StartupImpact.ExportFailed>
     <LoadingProgress.StartupImpact.Saved>Сохранено успешно</LoadingProgress.StartupImpact.Saved>
     <LoadingProgress.StartupImpact.SaveFailed>Ошибка сохранения: {0}</LoadingProgress.StartupImpact.SaveFailed>
     <LoadingProgress.StartupImpact.Loaded>Загружено успешно</LoadingProgress.StartupImpact.Loaded>

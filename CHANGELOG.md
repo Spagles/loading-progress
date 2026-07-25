@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Startup Impact window now shows a small summary of how much work the last load actually did: the number of defs parsed, patch operations applied, and mods loaded. This is also saved to the startup impact report file for external tools to read.
 - The 'Loading window placement' setting now has a 'Custom' option. Picking it adds a 'Set custom position...' button that lets you drag a life-size stand-in for the loading window to wherever you want it on your screen. The chosen position is remembered proportionally, so it stays in the same relative spot even if you later change your screen resolution.
 - The Startup Impact window now has a 'Detail' slider next to the 'Use logarithmic scale' checkbox, shown only while that option is enabled. It lets you tune how strongly the logarithmic scale compresses large values, so you can make small differences between fast mods easier to see, or keep big impacts looking proportionally larger.
+- The Startup Impact window has a new 'Export HTML' button next to Save/Load. It writes a self-contained HTML report (StartupImpactReport.html, next to your save data) that looks like the in-game window itself, including working mod filtering, mod-visibility toggling and logarithmic scale controls. Unlike the existing Save button, which writes a format only this mod can read back in, the exported file can be opened in any browser or shared without anyone needing RimWorld running to view it.
 
 ### Fixed
 
