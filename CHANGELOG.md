@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The loading window's 'Loading progress' header was always shown in English regardless of your game's language. It's now translated like the rest of the window (Russian translation included).
 - Since 0.12.0, the 'current activity' label almost always showed the generic `ExecuteToExecuteWhenFinished()` instead of naming the specific delayed-initialization task actually running. This was a side effect of the 0.12.0 fix for stalls being attributed to the wrong mod; the correct task name is shown again now.
 - The progress bar shown while Faster Game Loading loads mod content early ignored your custom progress bar colors from the settings menu, always using the default colors instead. It now matches the main loading window's bar.
+- The Startup Impact window now always goes back to showing the current session's data once closed, instead of potentially still showing a previously loaded report if reopened.
 
 ## [0.12.0] - 2026-07-24
 

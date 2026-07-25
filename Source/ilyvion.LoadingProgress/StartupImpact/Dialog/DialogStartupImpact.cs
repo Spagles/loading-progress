@@ -206,6 +206,7 @@ internal sealed class DialogStartupImpact : Window
     private bool _useLogScale;
     private float _scaleDetailTau = 1000f;
     private UiTable _table;
+    private readonly StartupImpactSessionData _currentSessionData;
     private StartupImpactSessionData _sessionData;
     private StartupImpactSessionViewData _sessionViewData;
     private string _modFilter = "";
@@ -235,13 +236,24 @@ internal sealed class DialogStartupImpact : Window
 
     public DialogStartupImpact()
     {
-        _sessionData = StartupImpactSessionData.FromCurrentSession();
+        _currentSessionData = StartupImpactSessionData.FromCurrentSession();
+        _sessionData = _currentSessionData;
         Initialize();
 
         if (!LoadingProgressMod.Settings.TrackStartupLoadingImpact)
         {
             _statusText = "LoadingProgress.StartupImpact.Disabled".Translate();
         }
+    }
+
+    public override void PreClose()
+    {
+        base.PreClose();
+
+        // Loading a saved session (via the "Load" button) replaces the displayed data with
+        // historical data. Don't let that outlive the dialog: if it's reopened later some other
+        // way, it should reflect the current session again, not whatever was last loaded.
+        _sessionData = _currentSessionData;
     }
 
     [MemberNotNull([nameof(_sessionViewData), nameof(_table)])]
