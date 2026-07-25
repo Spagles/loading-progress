@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The content-reload detection used to show detailed progress while mods reload could crash the loading screen if a future game update changed how that code is compiled internally. It now falls back to showing reduced progress detail instead.
 - Progress bars (e.g. the 'Applying XML patches' bar when a mod list has no patches to apply) could render corrupted or invisible when their maximum value was 0, instead of just showing as empty. This is a very rare situation and would only realistically happen if Core itself was replaced with a mod that used 0 of any of the loading events.
 - The Russian translation was missing the settings labels for the 'automatically save startup impact report' option added in 0.12.0, so it fell back to English for those two lines. Russian translations for both have been added.
+- The 'basegame' bar in the Startup Impact window's profiler could show stale, duplicated values after hiding or showing a mod in the list, instead of reflecting the current numbers.
 
 ## [0.12.0] - 2026-07-24
 
