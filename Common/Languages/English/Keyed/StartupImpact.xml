@@ -57,6 +57,8 @@
     <LoadingProgress.StartupImpact.ScaleDetail.Tip>Impact values below this amount of time are shown close to their true proportions; values above it get compressed more heavily so a single very slow mod does not drown out the rest of the bar. Lower this to make small differences between fast mods easier to see; raise it to keep large impacts looking proportionally larger.</LoadingProgress.StartupImpact.ScaleDetail.Tip>
     <LoadingProgress.StartupImpact.ToggleModVisibility.Tip>Toggle the visibility of this mod's impact on startup performance. If this is currently the mod with the highest impact, its impact will no longer be used as a reference point for other mods, but instead the next highest impact mod will be used.</LoadingProgress.StartupImpact.ToggleModVisibility.Tip>
     <LoadingProgress.StartupImpact.FilterMods>Filter:</LoadingProgress.StartupImpact.FilterMods>
+    <LoadingProgress.StartupImpact.ColumnName>Mod</LoadingProgress.StartupImpact.ColumnName>
+    <LoadingProgress.StartupImpact.ColumnImpact>Impact</LoadingProgress.StartupImpact.ColumnImpact>
     <LoadingProgress.StartupImpact.ExportHtml>Export HTML</LoadingProgress.StartupImpact.ExportHtml>
     <LoadingProgress.StartupImpact.ExportHtml.Tip>Export this session's startup impact data as a self-contained HTML report you can open in a browser or share with others, without needing this game running.</LoadingProgress.StartupImpact.ExportHtml.Tip>
     <LoadingProgress.StartupImpact.Exported>Exported successfully</LoadingProgress.StartupImpact.Exported>

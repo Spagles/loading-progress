@@ -7,6 +7,7 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
     private readonly float[] _columnWidthsTemplate = columnWidthsTemplate;
     private readonly float[] _columnOffsets = new float[columnWidthsTemplate.Length];
     private readonly float[] _columnWidths = new float[columnWidthsTemplate.Length];
+    private float _columnLayoutWidth = -1f;
     private Rect _uiRect;
     private Rect _viewRect;
     private Rect _userRect;
@@ -28,6 +29,8 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
 
     public void StartTable(float x, float y, float width, float height)
     {
+        RecalculateColumns(width - 16f);
+
         if (_uiRect.x != x || _uiRect.y != y || _uiRect.width != width || _uiRect.height != height)
         {
             _uiRect.x = x;
@@ -39,35 +42,61 @@ internal sealed class UiTable(int rowCount, float rowHeight, float[] columnWidth
             _viewRect.y = 0;
             _viewRect.width = width - 16f;
             _viewRect.height = RowCount * _rowHeight;
-
-            float totalNeededWidth = 0;
-            var totalAvailableWidth = _viewRect.width;
-            foreach (var cw in _columnWidthsTemplate)
-            {
-                if (cw > 0)
-                {
-                    totalNeededWidth += cw;
-                }
-                else
-                {
-                    totalAvailableWidth += cw;
-                }
-            }
-
-            float xoff = 0;
-            var n = 0;
-            foreach (var cw in _columnWidthsTemplate)
-            {
-                var calculatedWidth = cw > 0 ? cw * totalAvailableWidth / totalNeededWidth : -cw;
-                _columnOffsets[n] = xoff;
-                _columnWidths[n] = calculatedWidth;
-
-                xoff += calculatedWidth;
-                n++;
-            }
         }
 
         Widgets.BeginScrollView(_uiRect, ref _scrollPosition, _viewRect);
+    }
+
+    private void RecalculateColumns(float availableWidth)
+    {
+        if (_columnLayoutWidth == availableWidth)
+        {
+            return;
+        }
+        _columnLayoutWidth = availableWidth;
+
+        float totalNeededWidth = 0;
+        var totalAvailableWidth = availableWidth;
+        foreach (var cw in _columnWidthsTemplate)
+        {
+            if (cw > 0)
+            {
+                totalNeededWidth += cw;
+            }
+            else
+            {
+                totalAvailableWidth += cw;
+            }
+        }
+
+        float xoff = 0;
+        var n = 0;
+        foreach (var cw in _columnWidthsTemplate)
+        {
+            var calculatedWidth = cw > 0 ? cw * totalAvailableWidth / totalNeededWidth : -cw;
+            _columnOffsets[n] = xoff;
+            _columnWidths[n] = calculatedWidth;
+
+            xoff += calculatedWidth;
+            n++;
+        }
+    }
+
+    /// <summary>
+    /// Draws a header row above the scrollable table, aligned to the same column
+    /// layout, and lets the caller render each column's header cell (e.g. a
+    /// clickable sort button).
+    /// </summary>
+    public void Header(float x, float y, float width, float height, Action<int, Rect> drawColumn)
+    {
+        RecalculateColumns(width - 16f);
+        for (var column = 0; column < _columnWidths.Length; column++)
+        {
+            drawColumn(
+                column,
+                new Rect(x + _columnOffsets[column], y, _columnWidths[column], height)
+            );
+        }
     }
 
     public bool IsRowVisible(int row)

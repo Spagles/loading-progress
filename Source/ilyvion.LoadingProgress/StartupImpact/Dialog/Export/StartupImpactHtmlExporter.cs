@@ -365,6 +365,28 @@ internal static class StartupImpactHtmlExporter
     border-radius: 3px;
     font-size: 13px;
   }
+  .table-header {
+    display: grid;
+    grid-template-columns: 40px 30fr 80px 38fr;
+    align-items: center;
+    padding: 0 6px;
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .table-header .sort-col {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .table-header .sort-col:hover { color: var(--text); }
+  .table-header [data-col="impact"] {
+    text-align: right;
+    padding-right: 4px;
+  }
   .table {
     border: 1px solid var(--border);
     border-radius: 3px;
@@ -473,6 +495,12 @@ internal static class StartupImpactHtmlExporter
     <label for="filterInput">Filter:</label>
     <input type="text" id="filterInput" placeholder="Filter by mod name or package ID">
   </div>
+  <div class="table-header" id="tableHeader">
+    <div></div>
+    <div class="sort-col" data-col="name"></div>
+    <div class="sort-col" data-col="impact"></div>
+    <div></div>
+  </div>
   <div class="table" id="modsTable"></div>
 
   <div class="footer" id="footer"></div>
@@ -489,7 +517,9 @@ internal static class StartupImpactHtmlExporter
     useLog: false,
     tau: 1000,
     filter: "",
-    hidden: new Set()
+    hidden: new Set(),
+    sortColumn: "impact",
+    sortAscending: false
   };
 
   var tooltipEl = document.getElementById("tooltip");
@@ -695,22 +725,62 @@ internal static class StartupImpactHtmlExporter
     return row;
   }
 
+  function compareMods(a, b) {
+    var cmp;
+    if (state.sortColumn === "name") {
+      var aName = a.name.toLowerCase();
+      var bName = b.name.toLowerCase();
+      cmp = aName < bName ? -1 : aName > bName ? 1 : 0;
+    } else {
+      cmp = a.totalImpactMs - b.totalImpactMs;
+    }
+    return state.sortAscending ? cmp : -cmp;
+  }
+
   function renderModsTable() {
     var container = document.getElementById("modsTable");
     container.innerHTML = "";
     var sessionMaxImpact = computeSessionMaxImpact();
     var filter = state.filter.trim().toLowerCase();
-    DATA.mods.forEach(function (mod) {
-      if (
-        filter
-        && mod.name.toLowerCase().indexOf(filter) < 0
-        && mod.packageId.toLowerCase().indexOf(filter) < 0
-      ) {
-        return;
+    DATA.mods
+      .filter(function (mod) {
+        return (
+          !filter
+          || mod.name.toLowerCase().indexOf(filter) >= 0
+          || mod.packageId.toLowerCase().indexOf(filter) >= 0
+        );
+      })
+      .sort(compareMods)
+      .forEach(function (mod) {
+        container.appendChild(renderModRow(mod, sessionMaxImpact));
+      });
+  }
+
+  function updateSortHeader() {
+    document.querySelectorAll(".sort-col").forEach(function (el) {
+      var col = el.getAttribute("data-col");
+      var label = col === "name" ? "Mod" : "Impact";
+      if (state.sortColumn === col) {
+        label += " " + (state.sortAscending ? "▲" : "▼");
       }
-      container.appendChild(renderModRow(mod, sessionMaxImpact));
+      el.textContent = label;
     });
   }
+
+  document.querySelectorAll(".sort-col").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var col = el.getAttribute("data-col");
+      if (state.sortColumn === col) {
+        state.sortAscending = !state.sortAscending;
+      } else {
+        state.sortColumn = col;
+        state.sortAscending = col === "name";
+      }
+      updateSortHeader();
+      renderModsTable();
+    });
+  });
+  updateSortHeader();
 
   function renderBaseGameBar() {
     renderBar(document.getElementById("baseGameBar"), DATA.baseGame.segments, DATA.baseGame.loadingTimeMs);

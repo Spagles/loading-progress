@@ -195,6 +195,14 @@ internal sealed class DialogStartupImpact : Window
     };
     private static readonly Color DefaultColor = new(128f / 255f, 128f / 255f, 128f / 255f);
 
+    private const float HeaderHeight = 20f;
+
+    private enum SortColumn
+    {
+        Impact,
+        Name,
+    }
+
     private bool _useLogScale;
     private float _scaleDetailTau = 1000f;
     private UiTable _table;
@@ -202,6 +210,8 @@ internal sealed class DialogStartupImpact : Window
     private StartupImpactSessionViewData _sessionViewData;
     private string _modFilter = "";
     private List<StartupImpactSessionModViewData> _filteredModViewData = [];
+    private SortColumn _sortColumn = SortColumn.Impact;
+    private bool _sortAscending;
 
     // Set window width to 800 and height to the lesser of 800 or 75% of the screen height
     public override Vector2 InitialSize => new(800f, Math.Min(800f, UI.screenHeight * 0.75f));
@@ -245,19 +255,76 @@ internal sealed class DialogStartupImpact : Window
 
     private void ApplyModFilter()
     {
-        _filteredModViewData = string.IsNullOrWhiteSpace(_modFilter)
-            ? [.. _sessionViewData.ModViewData]
-            :
-            [
-                .. _sessionViewData.ModViewData.Where(info =>
-                    info.ModData.ModName.Contains(_modFilter, StringComparison.OrdinalIgnoreCase)
-                    || info.ModData.ModPackageId.Contains(
-                        _modFilter,
-                        StringComparison.OrdinalIgnoreCase
-                    )
+        var filtered = string.IsNullOrWhiteSpace(_modFilter)
+            ? _sessionViewData.ModViewData
+            : _sessionViewData.ModViewData.Where(info =>
+                info.ModData.ModName.Contains(_modFilter, StringComparison.OrdinalIgnoreCase)
+                || info.ModData.ModPackageId.Contains(
+                    _modFilter,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            );
+
+        filtered = _sortColumn switch
+        {
+            SortColumn.Name => _sortAscending
+                ? filtered.OrderBy(info => info.ModData.ModName, StringComparer.OrdinalIgnoreCase)
+                : filtered.OrderByDescending(
+                    info => info.ModData.ModName,
+                    StringComparer.OrdinalIgnoreCase
                 ),
-            ];
+            SortColumn.Impact => _sortAscending
+                ? filtered.OrderBy(info => info.ModData.TotalImpact)
+                : filtered.OrderByDescending(info => info.ModData.TotalImpact),
+            _ => throw new ArgumentOutOfRangeException(nameof(_sortColumn)),
+        };
+
+        _filteredModViewData = [.. filtered];
         _table.RowCount = _filteredModViewData.Count;
+    }
+
+    private void SetSort(SortColumn column)
+    {
+        if (_sortColumn == column)
+        {
+            _sortAscending = !_sortAscending;
+        }
+        else
+        {
+            _sortColumn = column;
+            // Impact starts high-to-low (matches the previous fixed ordering);
+            // Name starts A-to-Z.
+            _sortAscending = column == SortColumn.Name;
+        }
+        ApplyModFilter();
+    }
+
+    private void DrawTableHeaderColumn(int column, Rect rect)
+    {
+        var sortColumn = column switch
+        {
+            1 => SortColumn.Name,
+            2 => SortColumn.Impact,
+            _ => (SortColumn?)null,
+        };
+        if (sortColumn is not { } resolvedColumn)
+        {
+            return;
+        }
+
+        var label =
+            resolvedColumn == SortColumn.Name
+                ? "LoadingProgress.StartupImpact.ColumnName".Translate()
+                : "LoadingProgress.StartupImpact.ColumnImpact".Translate();
+        if (_sortColumn == resolvedColumn)
+        {
+            label = $"{label} {(_sortAscending ? "▲" : "▼")}";
+        }
+
+        if (Widgets.ButtonText(rect, label, drawBackground: false))
+        {
+            SetSort(resolvedColumn);
+        }
     }
 
     public override void DoWindowContents(Rect area)
@@ -392,6 +459,9 @@ internal sealed class DialogStartupImpact : Window
             ApplyModFilter();
         }
         y += CheckboxHeight + OuterSpacing;
+
+        _table.Header(0, y, area.width, HeaderHeight, DrawTableHeaderColumn);
+        y += HeaderHeight + InnerSpacing;
 
         var bottomOffset = ButtonHeight + OuterSpacing + InnerSpacing; // Button height + spacing + padding
         _table.StartTable(0, y, area.width, area.height - y - bottomOffset);
