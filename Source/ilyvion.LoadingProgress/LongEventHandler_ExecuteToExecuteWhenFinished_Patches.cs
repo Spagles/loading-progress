@@ -298,6 +298,20 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                 DeepProfiler.End();
             }
 
+            // DeepProfiler.End() above just restored the parent scope's label (e.g.
+            // "ExecuteToExecuteWhenFinished()") via DeepProfiler_End_Patches, undoing the
+            // SetCurrentLoadingActivityRaw(label) call from before we ran this action. Put it
+            // back so the repaint below still shows the label for the action that actually
+            // just ran.
+            if (
+                LoadingProgressWindow.CurrentStage
+                is LoadingStage.ExecuteToExecuteWhenFinished
+                    or LoadingStage.ExecuteToExecuteWhenFinished2
+            )
+            {
+                LoadingProgressWindow.SetCurrentLoadingActivityRaw(label);
+            }
+
             // See the comment on the matching yield in
             // StaticConstructorOnStartupUtilityReplacement.CallAll(): without this, a slow
             // action above blows through LongEventHandler's MoveNext() time budget from

@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The base game's share of background-thread startup work was never saved or exported, even though the equivalent per-mod background-thread work was.
 - A malformed or corrupted translation file from any loaded mod could crash the loading screen while translations were being loaded. Such a file is now skipped (with a warning logged) instead.
 - The loading window's 'Loading progress' header was always shown in English regardless of your game's language. It's now translated like the rest of the window (Russian translation included).
+- Since 0.12.0, the 'current activity' label almost always showed the generic `ExecuteToExecuteWhenFinished()` instead of naming the specific delayed-initialization task actually running. This was a side effect of the 0.12.0 fix for stalls being attributed to the wrong mod; the correct task name is shown again now.
 
 ## [0.12.0] - 2026-07-24
 
