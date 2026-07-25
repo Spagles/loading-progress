@@ -116,7 +116,11 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                 StaticConstructorOnStartupUtilityReplacement.Interject();
 
                 DeepProfiler.End();
-                LongEventHandler.toExecuteWhenFinished.RemoveRange(0, i);
+                // Remove index i too (not just [0, i)): CallAllAndRest() already runs every
+                // step of this closure itself (static ctors, FloatMenuMakerMap.Init, atlas
+                // baking, GC), so the closure must not be invoked for real a second time when
+                // we resume below - that would redo the non-idempotent-cost parts of it.
+                LongEventHandler.toExecuteWhenFinished.RemoveRange(0, i + 1);
                 LongEventHandler.executingToExecuteWhenFinished = false;
 
                 // LoadingProgressMod.Debug("StaticConstructorOnStartupUtility.CallAll was up, "
@@ -200,6 +204,10 @@ internal static partial class LongEventHandler_ExecuteToExecuteWhenFinished_Patc
                             reloadContentStepCounter,
                             reloadContentStepCount
                         );
+                        // These labels are the ones most likely to sit right in front of a slow,
+                        // synchronous step (a mod's texture/audio/asset reload), so they need to
+                        // land on screen even if it means cutting the current 0.1s batch short.
+                        LongEventHandler_UpdateCurrentEnumeratorEvent_Patches.RequestImmediateRepaint();
                         yield return value;
                     }
                     // Run the original method to let other mods' prefixes and postfixes run

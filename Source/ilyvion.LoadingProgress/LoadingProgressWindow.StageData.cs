@@ -677,6 +677,11 @@ internal sealed partial class LoadingProgressWindow
                 LoadingDataTracker.Current = null;
 
                 field = value;
+
+                // A stage transition is exactly the kind of change that should be visible right
+                // away, even if it lands inside what would otherwise be a batched, unpainted
+                // 0.1s burst of yields.
+                LongEventHandler_UpdateCurrentEnumeratorEvent_Patches.RequestImmediateRepaint();
             }
         }
     } = LoadingStage.Initializing;

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The 'Giving short hashes to defs' stage now shows a progress bar tracking how many defs have been given a short hash, instead of appearing to hang for its full duration with no feedback.
+
+### Fixed
+
+- The loading window could appear frozen on a stale message (e.g. stuck showing 'Giving short hashes to defs') for a long stretch while something else entirely was actually taking a long time in the background. The window now updates immediately whenever the loading stage changes or a mod's content starts reloading, so it correctly shows what's actually responsible for a long pause instead of whatever was on screen before it started.
+- The very end of loading (calling all static constructors, baking texture atlases, and running garbage collection) ran as one uninterrupted block, freezing the loading window for however long all of it combined took. Each of these steps is now tracked and shown separately, so the window keeps updating throughout.
+
 ## [0.13.0] - 2026-07-25
 
 ### Added
