@@ -17,6 +17,7 @@ internal sealed class StartupImpactSessionViewData
     private readonly List<string> categories = [];
     private readonly List<string> categoriesNonMods = [];
     private readonly List<float> metricsNonMods = [];
+    private readonly List<float> metricsOffThreadNonMods = [];
     private readonly List<float> metricsTotal = [];
     private readonly Dictionary<string, Color> categoryColorsNonMods = [];
     private readonly List<string> categoriesMods = [];
@@ -26,12 +27,14 @@ internal sealed class StartupImpactSessionViewData
     internal IReadOnlyList<StartupImpactSessionModViewData> ModViewData => modViewData.AsReadOnly();
 
     public float BasegameLoadingTime { get; private set; }
+    public float OffThreadBasegameLoadingTime { get; private set; }
     public float ModsLoadingTime { get; private set; }
     public float MaxImpact { get; private set; }
 
     public IReadOnlyList<string> Categories => categories.AsReadOnly();
     public IReadOnlyList<string> CategoriesNonMods => categoriesNonMods.AsReadOnly();
     public IReadOnlyList<float> MetricsNonMods => metricsNonMods.AsReadOnly();
+    public IReadOnlyList<float> MetricsOffThreadNonMods => metricsOffThreadNonMods.AsReadOnly();
     public IReadOnlyList<float> MetricsTotal => metricsTotal.AsReadOnly();
     public IReadOnlyDictionary<string, Color> CategoryColorsNonMods =>
         categoryColorsNonMods.AsReadOnly();
@@ -129,6 +132,7 @@ internal sealed class StartupImpactSessionViewData
     {
         categoriesNonMods.Clear();
         metricsNonMods.Clear();
+        metricsOffThreadNonMods.Clear();
         BasegameLoadingTime = 0;
 
         foreach (var entry in sessionData.Metrics)
@@ -139,6 +143,24 @@ internal sealed class StartupImpactSessionViewData
             categoriesNonMods.Add(cat);
             metricsNonMods.Add(entry.Value);
             BasegameLoadingTime += entry.Value;
+            metricsOffThreadNonMods.Add(
+                sessionData.OffThreadMetrics.TryGetValue(cat, out var offValue) ? offValue : 0f
+            );
         }
+
+        foreach (var entry in sessionData.OffThreadMetrics)
+        {
+            if (categoriesNonMods.Contains(entry.Key))
+            {
+                continue;
+            }
+
+            categoryColorsNonMods[entry.Key] = StartupImpactProfilerUtil.HashColor(entry.Key);
+            categoriesNonMods.Add(entry.Key);
+            metricsNonMods.Add(0f);
+            metricsOffThreadNonMods.Add(entry.Value);
+        }
+
+        OffThreadBasegameLoadingTime = sessionData.OffThreadTotalImpact;
     }
 }

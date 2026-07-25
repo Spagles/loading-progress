@@ -16,10 +16,17 @@ internal static class StartupImpactHtmlExporter
         StartupImpactSessionData sessionData,
         StartupImpactSessionViewData viewData,
         IReadOnlyDictionary<string, Color> modCategoryColors,
-        Color defaultColor
+        Color defaultColor,
+        bool showBaseGameOffThreadImpact
     )
     {
-        var json = BuildDataJson(sessionData, viewData, modCategoryColors, defaultColor);
+        var json = BuildDataJson(
+            sessionData,
+            viewData,
+            modCategoryColors,
+            defaultColor,
+            showBaseGameOffThreadImpact
+        );
         return Template.Replace("/*__DATA_JSON__*/", json, StringComparison.Ordinal);
     }
 
@@ -27,7 +34,8 @@ internal static class StartupImpactHtmlExporter
         StartupImpactSessionData sessionData,
         StartupImpactSessionViewData viewData,
         IReadOnlyDictionary<string, Color> modCategoryColors,
-        Color defaultColor
+        Color defaultColor,
+        bool showBaseGameOffThreadImpact
     )
     {
         var sb = new StringBuilder();
@@ -78,6 +86,12 @@ internal static class StartupImpactHtmlExporter
         _ = sb.Append("\"baseGame\":{");
         AppendNumber(sb, "loadingTimeMs", viewData.BasegameLoadingTime);
         _ = sb.Append(',');
+        AppendNumber(
+            sb,
+            "offThreadTotalImpactMs",
+            showBaseGameOffThreadImpact ? viewData.OffThreadBasegameLoadingTime : 0f
+        );
+        _ = sb.Append(',');
         _ = sb.Append("\"segments\":[");
         var nonModCategories = viewData.CategoriesNonMods;
         var nonModMetrics = viewData.MetricsNonMods;
@@ -104,7 +118,22 @@ internal static class StartupImpactHtmlExporter
             AppendNumber(sb, "valueMs", nonModMetrics[i]);
             _ = sb.Append('}');
         }
-        _ = sb.Append("]},");
+        _ = sb.Append("],");
+
+        _ = sb.Append("\"offThreadSegments\":[");
+        if (showBaseGameOffThreadImpact && viewData.OffThreadBasegameLoadingTime > 1f)
+        {
+            AppendSegments(
+                sb,
+                viewData.CategoriesNonMods,
+                viewData.MetricsOffThreadNonMods,
+                viewData.CategoryColorsNonMods,
+                defaultColor
+            );
+        }
+        _ = sb.Append(']');
+
+        _ = sb.Append("},");
 
         _ = sb.Append("\"mods\":[");
         var categories = viewData.Categories;
@@ -449,6 +478,23 @@ internal static class StartupImpactHtmlExporter
     height: auto;
     min-height: 0;
   }
+  .basegame-bar-cell {
+    display: flex;
+    flex-direction: column;
+    height: 38px;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .basegame-bar-cell .bar {
+    flex: 1;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    height: auto;
+    min-height: 0;
+  }
   .tooltip {
     position: fixed;
     display: none;
@@ -494,7 +540,7 @@ internal static class StartupImpactHtmlExporter
   <div class="session-stats" id="sessionStats"></div>
 
   <h2 id="baseGameTitle"></h2>
-  <div class="bar" id="baseGameBar"></div>
+  <div class="basegame-bar-cell" id="baseGameBar"></div>
 
   <h2 id="modsTitle"></h2>
   <div class="bar" id="modsBar"></div>
@@ -790,7 +836,19 @@ internal static class StartupImpactHtmlExporter
   updateSortHeader();
 
   function renderBaseGameBar() {
-    renderBar(document.getElementById("baseGameBar"), DATA.baseGame.segments, DATA.baseGame.loadingTimeMs);
+    var container = document.getElementById("baseGameBar");
+    container.innerHTML = "";
+    var maxImpact = Math.max(DATA.baseGame.loadingTimeMs, DATA.baseGame.offThreadTotalImpactMs);
+    if (DATA.baseGame.offThreadTotalImpactMs > 1) {
+      var offBar = document.createElement("div");
+      offBar.className = "bar";
+      renderBar(offBar, DATA.baseGame.offThreadSegments, maxImpact);
+      container.appendChild(offBar);
+    }
+    var mainBar = document.createElement("div");
+    mainBar.className = "bar";
+    renderBar(mainBar, DATA.baseGame.segments, DATA.baseGame.loadingTimeMs);
+    container.appendChild(mainBar);
   }
 
   function renderModsBar() {

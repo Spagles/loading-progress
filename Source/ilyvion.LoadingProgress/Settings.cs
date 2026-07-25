@@ -141,6 +141,13 @@ internal sealed class Settings : ModSettings
         set => _autoSaveStartupImpactReport = value;
     }
 
+    private bool _showBaseGameOffThreadImpact;
+    public bool ShowBaseGameOffThreadImpact
+    {
+        get => _showBaseGameOffThreadImpact;
+        set => _showBaseGameOffThreadImpact = value;
+    }
+
     private Color _progressBarColor = Widgets_Progressbar.BarColor;
     public Color ProgressBarColor
     {
@@ -210,6 +217,7 @@ internal sealed class Settings : ModSettings
         );
         Scribe_Values.Look(ref _trackStartupLoadingImpact, "trackStartupLoadingImpact", false);
         Scribe_Values.Look(ref _autoSaveStartupImpactReport, "autoSaveStartupImpactReport", false);
+        Scribe_Values.Look(ref _showBaseGameOffThreadImpact, "showBaseGameOffThreadImpact", false);
         Scribe_Values.Look(ref _progressBarColor, "progressBarColor", Widgets_Progressbar.BarColor);
         Scribe_Values.Look(ref _smallBarColor, "smallBarColor", Widgets_Progressbar.SmallBarColor);
     }
@@ -290,6 +298,12 @@ internal sealed class Settings : ModSettings
                 "LoadingProgress.AutoSaveStartupImpactReport".Translate(),
                 ref _autoSaveStartupImpactReport,
                 "LoadingProgress.AutoSaveStartupImpactReport.Tip".Translate()
+            );
+
+            listingStandard.CheckboxLabeled(
+                "LoadingProgress.ShowBaseGameOffThreadImpact".Translate(),
+                ref _showBaseGameOffThreadImpact,
+                "LoadingProgress.ShowBaseGameOffThreadImpact.Tip".Translate()
             );
         }
 

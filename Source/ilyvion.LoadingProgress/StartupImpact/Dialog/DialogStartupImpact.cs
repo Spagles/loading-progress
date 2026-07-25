@@ -427,6 +427,25 @@ internal sealed class DialogStartupImpact : Window
         y += nonmodsTitleRect.height;
 
         Rect nonmodsProfileRect = new(0, y, area.width, BarHeight);
+        var nonmodsOffThreadRect = nonmodsProfileRect;
+        if (
+            LoadingProgressMod.Settings.ShowBaseGameOffThreadImpact
+            && _sessionViewData.OffThreadBasegameLoadingTime > 1f
+        )
+        {
+            nonmodsOffThreadRect.yMin += nonmodsProfileRect.height / 2;
+            nonmodsProfileRect.yMax -= nonmodsProfileRect.height / 2;
+            profilerBar.Draw(
+                nonmodsOffThreadRect,
+                _sessionViewData.MetricsOffThreadNonMods,
+                _sessionViewData.CategoriesNonMods,
+                Math.Max(
+                    _sessionViewData.BasegameLoadingTime,
+                    _sessionViewData.OffThreadBasegameLoadingTime
+                ),
+                _sessionViewData.CategoryColorsNonMods
+            );
+        }
         profilerBar.Draw(
             nonmodsProfileRect,
             _sessionViewData.MetricsNonMods,
@@ -434,7 +453,7 @@ internal sealed class DialogStartupImpact : Window
             _sessionViewData.BasegameLoadingTime,
             _sessionViewData.CategoryColorsNonMods
         );
-        y += nonmodsProfileRect.height + OuterSpacing;
+        y += BarHeight + OuterSpacing;
 
         Rect modsTitleRect = new(0, y, area.width, TitleHeight);
         Widgets.Label(
@@ -549,7 +568,8 @@ internal sealed class DialogStartupImpact : Window
                     _sessionData,
                     _sessionViewData,
                     CategoryColors,
-                    DefaultColor
+                    DefaultColor,
+                    LoadingProgressMod.Settings.ShowBaseGameOffThreadImpact
                 );
                 var exportPath = Path.Combine(
                     GenFilePaths.SaveDataFolderPath,

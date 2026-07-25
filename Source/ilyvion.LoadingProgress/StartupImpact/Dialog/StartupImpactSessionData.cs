@@ -36,6 +36,12 @@ internal sealed class StartupImpactSessionData : IExposable
                 kvp => kvp.Key,
                 kvp => kvp.Value
             ),
+            totalImpact = startupImpact.BaseGameProfiler.TotalImpact,
+            offThreadMetrics = startupImpact.BaseGameProfiler.OffThreadMetrics.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value
+            ),
+            offThreadTotalImpact = startupImpact.BaseGameProfiler.OffThreadTotalImpact,
             mods =
             [
                 .. startupImpact.Modlist.ModsInImpactOrder.Select(
