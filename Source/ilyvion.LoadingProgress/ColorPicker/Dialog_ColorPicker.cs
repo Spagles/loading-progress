@@ -547,7 +547,6 @@ internal sealed class Dialog_ColorPicker : Window
         DrawRecent(recentRect);
 
         // draw slider handles
-        // TODO: get HSV from RGB for init of handles.
         var hueHandleRect = new Rect(
             hueRect.xMin - 3f,
             hueRect.yMin + _huePosition - (_handleSize / 2),
