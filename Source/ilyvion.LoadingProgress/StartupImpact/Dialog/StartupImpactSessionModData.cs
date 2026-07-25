@@ -15,7 +15,7 @@ internal sealed class StartupImpactSessionModData : IExposable
     public string ModPackageId => modPackageId;
     public IReadOnlyDictionary<string, float> Metrics => metrics.AsReadOnly();
     public float TotalImpact => totalImpact;
-    public IReadOnlyDictionary<string, float> OffThreadMetrics => offThreadMetrics;
+    public IReadOnlyDictionary<string, float> OffThreadMetrics => offThreadMetrics.AsReadOnly();
     public float OffThreadTotalImpact => offThreadTotalImpact;
 
     public static StartupImpactSessionModData FromModInfo(ModInfo info) =>
