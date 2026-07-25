@@ -96,15 +96,22 @@ internal static class Translations
     {
         foreach (var file in Directory.GetFiles(languageDirectory, "*.xml"))
         {
-            var translationContent = File.ReadAllText(file);
-            if (!translationContent.Contains("LoadingProgress.", StringComparison.Ordinal))
+            try
             {
-                continue;
+                var translationContent = File.ReadAllText(file);
+                if (!translationContent.Contains("LoadingProgress.", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+                foreach (var x in DirectXmlLoaderSimple.ValuesFromXmlFile(translationContent))
+                {
+                    languageDictionary ??= [];
+                    languageDictionary[x.key] = x.value;
+                }
             }
-            foreach (var x in DirectXmlLoaderSimple.ValuesFromXmlFile(translationContent))
+            catch (Exception e)
             {
-                languageDictionary ??= [];
-                languageDictionary[x.key] = x.value;
+                LoadingProgressMod.Warning($"Failed to load translations from {file}: {e}");
             }
         }
     }
