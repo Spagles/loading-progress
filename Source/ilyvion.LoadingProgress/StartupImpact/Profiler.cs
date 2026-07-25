@@ -12,7 +12,9 @@ internal sealed class Profiler(string measurementTarget) : IDisposable
     public float TotalImpact { get; private set; }
 
     public ConcurrentDictionary<string, float> OffThreadMetrics { get; } = [];
-    public float OffThreadTotalImpact { get; private set; }
+
+    private float _offThreadTotalImpact;
+    public float OffThreadTotalImpact => _offThreadTotalImpact;
 
     public void Start(string category)
     {
@@ -43,11 +45,9 @@ internal sealed class Profiler(string measurementTarget) : IDisposable
         }
         else
         {
-            OffThreadTotalImpact += ms;
+            InterlockedAdd(ref _offThreadTotalImpact, ms);
 
-            _ = OffThreadMetrics.TryGetValue(actualCategory, out var total);
-            total += ms;
-            OffThreadMetrics[actualCategory] = total;
+            _ = OffThreadMetrics.AddOrUpdate(actualCategory, ms, (_, total) => total + ms);
         }
 
         return ms;
@@ -57,5 +57,16 @@ internal sealed class Profiler(string measurementTarget) : IDisposable
     {
         _threadLocalProfiler.Dispose();
         GC.SuppressFinalize(this);
+    }
+
+    private static void InterlockedAdd(ref float location, float value)
+    {
+        float initial;
+        float computed;
+        do
+        {
+            initial = location;
+            computed = initial + value;
+        } while (initial != Interlocked.CompareExchange(ref location, computed, initial));
     }
 }

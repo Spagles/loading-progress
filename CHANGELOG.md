@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Progress bars (e.g. the 'Applying XML patches' bar when a mod list has no patches to apply) could render corrupted or invisible when their maximum value was 0, instead of just showing as empty. This is a very rare situation and would only realistically happen if Core itself was replaced with a mod that used 0 of any of the loading events.
 - The Russian translation was missing the settings labels for the 'automatically save startup impact report' option added in 0.12.0, so it fell back to English for those two lines. Russian translations for both have been added.
 - The 'basegame' bar in the Startup Impact window's profiler could show stale, duplicated values after hiding or showing a mod in the list, instead of reflecting the current numbers.
+- Startup impact timing recorded for work done on background threads (e.g. while mods are being parsed in parallel) could be undercounted, since simultaneous updates from different threads could overwrite each other instead of adding up.
 
 ## [0.12.0] - 2026-07-24
 
