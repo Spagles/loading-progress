@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The startup message now includes the mod's version number.
+
 ## [0.13.1] - 2026-07-25
 
-### Added
+### Changed
 
 - The 'Giving short hashes to defs' stage now shows a progress bar tracking how many defs have been given a short hash, instead of appearing to hang for its full duration with no feedback.
 

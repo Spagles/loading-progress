@@ -24,7 +24,9 @@ internal sealed class LoadingProgressMod : Mod
             harmony.PatchCategory(Assembly.GetExecutingAssembly(), "StartupImpact");
         }
 
-        Message("Loading Progress initialized! Enjoy the rest of your loading experience!");
+        Message(
+            $"Loading Progress v{content.ModMetaData.ModVersion} initialized! Enjoy the rest of your loading experience!"
+        );
     }
 
     public static Settings Settings => instance.GetSettings<Settings>();
