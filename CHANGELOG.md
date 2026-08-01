@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The startup message now includes the mod's version number.
 
+### Fixed
+
+- The Humanoid Alien Races loading patch was not active when the Humanoid Alien Races ~ Dev mod (package ID 'erdelf.humanoidalienraces.dev') was active instead of the regular mod.
+
 ## [0.13.1] - 2026-07-25
 
 ### Changed
