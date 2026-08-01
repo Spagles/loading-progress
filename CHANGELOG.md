@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.2] - 2026-08-01
+
 ### Changed
 
 - The startup message now includes the mod's version number.
@@ -282,7 +284,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First implementation of the mod.
 
-[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.13.1...HEAD
+[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.13.2...HEAD
+[0.13.2]: https://github.com/ilyvion/loading-progress/compare/v0.13.1..v0.13.2
 [0.13.1]: https://github.com/ilyvion/loading-progress/compare/v0.13.0..v0.13.1
 [0.13.0]: https://github.com/ilyvion/loading-progress/compare/v0.12.0..v0.13.0
 [0.12.0]: https://github.com/ilyvion/loading-progress/compare/v0.11.0..v0.12.0
