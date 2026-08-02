@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed a crash while tracking the 'giving short hashes to defs' stage's progress when a loaded mod's XML document had no root element. Contributed by [Spagles](https://github.com/Spagles).
+- Fixed a crash on startup when a mod referenced a language for translations that doesn't actually have a folder for it. Contributed by [Spagles](https://github.com/Spagles).
+
 ## [0.13.2] - 2026-08-01
 
 ### Changed
