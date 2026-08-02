@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-08-02
+
 ### Added
 
 - The loading window now shows the current managed heap size and the game process's total memory usage, next to the title. This can be turned off in the settings. Implements [#9](https://github.com/ilyvion/loading-progress/issues/9).
@@ -294,7 +296,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First implementation of the mod.
 
-[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.13.2...HEAD
+[Unreleased]: https://github.com/ilyvion/loading-progress/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/ilyvion/loading-progress/compare/v0.13.2..v0.14.0
 [0.13.2]: https://github.com/ilyvion/loading-progress/compare/v0.13.1..v0.13.2
 [0.13.1]: https://github.com/ilyvion/loading-progress/compare/v0.13.0..v0.13.1
 [0.13.0]: https://github.com/ilyvion/loading-progress/compare/v0.12.0..v0.13.0
