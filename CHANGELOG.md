@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed a crash while tracking the 'giving short hashes to defs' stage's progress when a loaded mod's XML document had no root element. Contributed by [Spagles](https://github.com/Spagles).
 - Fixed a crash on startup when a mod referenced a language for translations that doesn't actually have a folder for it. Contributed by [Spagles](https://github.com/Spagles).
+- Mod translations are now found using the same rules RimWorld itself uses: both the active language's canonical folder name (e.g. 'Polish (Polski)') and its legacy name (e.g. 'Polish') are checked, and translations packed as a '.tar' archive are now picked up correctly.
 
 ## [0.13.2] - 2026-08-01
 
