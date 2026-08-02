@@ -211,6 +211,13 @@ internal static class Utilities
         return t.TotalHours >= 1 ? $"{(int)t.TotalHours}:{t:mm\\:ss}" : $"{t:mm\\:ss}";
     }
 
+    private const double Kibibyte = 1024;
+    private const double Mebibyte = Kibibyte * 1024;
+    private const double Gibibyte = Mebibyte * 1024;
+
+    public static string FormatBytes(long bytes) =>
+        bytes >= (long)Gibibyte ? $"{bytes / Gibibyte:0.##} GiB" : $"{bytes / Mebibyte:0} MiB";
+
     public static Color Darken(this Color color, float amount)
     {
         Color.RGBToHSV(color, out var h, out var s, out var v);

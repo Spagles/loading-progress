@@ -16,6 +16,8 @@
     <LoadingProgress.LastLoadingTimeProgressBar.Tip>Когда включено, во время загрузки будет отображаться полоса прогресса, показывающая, сколько времени прошло относительно ожидаемого.</LoadingProgress.LastLoadingTimeProgressBar.Tip>
     <LoadingProgress.LastLoadingTimeInCorner>Показывать время загрузки в нижнем правом углу главного меню</LoadingProgress.LastLoadingTimeInCorner>
     <LoadingProgress.LastLoadingTimeInCorner.Tip>Когда включено, в нижнем правом углу главного меню будет отображаться время, затраченное на загрузку игры.</LoadingProgress.LastLoadingTimeInCorner.Tip>
+    <LoadingProgress.ShowMemoryUsage>Показывать использование памяти</LoadingProgress.ShowMemoryUsage>
+    <LoadingProgress.ShowMemoryUsage.Tip>Когда включено, окно загрузки показывает текущий размер управляемой (Mono) кучи и общее использование памяти процессом игры (рабочий набор).\n\nЗначение процесса полезнее для оценки общей нагрузки на ОЗУ; значение кучи — более узкий показатель, отражающий только управляемую .NET часть памяти.</LoadingProgress.ShowMemoryUsage.Tip>
     <LoadingProgress.ShowFasterGameLoadingEarlyModContentLoading>Показывать прогресс ранней загрузки контента модов Faster Game Loading</LoadingProgress.ShowFasterGameLoadingEarlyModContentLoading>
     <LoadingProgress.ShowFasterGameLoadingEarlyModContentLoading.Tip>Когда включено и Faster Game Loading активен, мод будет показывать дополнительный индикатор загрузки контента модов, загружаемого на раннем этапе запуска.</LoadingProgress.ShowFasterGameLoadingEarlyModContentLoading.Tip>
     <LoadingProgress.TrackStartupLoadingImpact>Отслеживать влияние модов на время запуска</LoadingProgress.TrackStartupLoadingImpact>

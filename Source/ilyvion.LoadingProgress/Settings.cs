@@ -120,6 +120,13 @@ internal sealed class Settings : ModSettings
         set => _showLastLoadingTimeInCorner = value;
     }
 
+    private bool _showMemoryUsage = true;
+    public bool ShowMemoryUsage
+    {
+        get => _showMemoryUsage;
+        set => _showMemoryUsage = value;
+    }
+
     private bool _showFasterGameLoadingEarlyModContentLoading = true;
     public bool ShowFasterGameLoadingEarlyModContentLoading
     {
@@ -210,6 +217,7 @@ internal sealed class Settings : ModSettings
             true
         );
         Scribe_Values.Look(ref _showLastLoadingTimeInCorner, "showLastLoadingTimeInCorner", true);
+        Scribe_Values.Look(ref _showMemoryUsage, "showMemoryUsage", true);
         Scribe_Values.Look(
             ref _showFasterGameLoadingEarlyModContentLoading,
             "showFasterGameLoadingEarlyModContentLoading",
@@ -278,6 +286,12 @@ internal sealed class Settings : ModSettings
             "LoadingProgress.LastLoadingTimeInCorner".Translate(),
             ref _showLastLoadingTimeInCorner,
             "LoadingProgress.LastLoadingTimeInCorner.Tip".Translate()
+        );
+
+        listingStandard.CheckboxLabeled(
+            "LoadingProgress.ShowMemoryUsage".Translate(),
+            ref _showMemoryUsage,
+            "LoadingProgress.ShowMemoryUsage.Tip".Translate()
         );
 
         listingStandard.CheckboxLabeled(

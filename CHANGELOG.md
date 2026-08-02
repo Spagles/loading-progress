@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The loading window now shows the current managed heap size and the game process's total memory usage, next to the title. This can be turned off in the settings. Implements [#9](https://github.com/ilyvion/loading-progress/issues/9).
+
 ### Fixed
 
 - Fixed a crash while tracking the 'giving short hashes to defs' stage's progress when a loaded mod's XML document had no root element. Contributed by [Spagles](https://github.com/Spagles).

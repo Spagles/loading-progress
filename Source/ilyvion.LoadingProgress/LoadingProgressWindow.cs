@@ -66,6 +66,24 @@ internal sealed partial class LoadingProgressWindow
 
         Widgets.Label(loadingProgressRect, Translations.GetTranslation("LoadingProgress.Title"));
 
+        if (LoadingProgressMod.Settings.ShowMemoryUsage)
+        {
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperRight;
+            GUI.color = new Color(1f, 1f, 1f, 0.5f);
+            Widgets.Label(
+                loadingProgressRect,
+                Translations.GetTranslation(
+                    "LoadingProgress.MemoryUsage",
+                    Utilities.FormatBytes(MemoryUsage.ManagedHeapBytes),
+                    Utilities.FormatBytes(MemoryUsage.ProcessBytes)
+                )
+            );
+            GUI.color = Color.white;
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
         var loadingActivityRect = loadingProgressRect;
         loadingProgressRect.y += loadingProgressRect.height + VerticalWidgetMargin;
         Text.Font = GameFont.Small;
